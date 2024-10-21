@@ -1,18 +1,17 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
         int[] nums = {1, 2, 3, 6, 5, 3};
         int target = 11;
+        String [] strs = {"act","pots","tops","cat","stop","hat"};
         String stringOne = "racecar";
         String stringTwo = "carrace";
 
         System.out.println(isAnagram(stringOne, stringTwo));
         System.out.println(Arrays.toString(twoSum(nums, target)));
+        System.out.println(groupAnagrams(strs));
 
     }
 
@@ -73,6 +72,35 @@ public class Main {
 
         // In case no solution is found, though this shouldn't happen per the problem guarantees
         throw new IllegalArgumentException("No two sum solution");
+    }
+
+    public static List<List<String>> groupAnagrams(String[] strs) {
+        String[] sortedStrs = new String[strs.length];
+        List<List<String>> finalList = new ArrayList<>(Collections.emptyList());
+      for( int i = 0 ; i < strs.length ; i++ ){
+            char[] chars = strs[i].toCharArray();
+            Arrays.sort(chars);
+            String sortedStr = new String(chars);
+            sortedStrs[i] = sortedStr;
+        }
+
+      HashMap<String ,List<String>> mapOfAnagrams = new HashMap<>();
+
+        for( int i = 0 ; i < strs.length ; i++ ){
+            if (mapOfAnagrams.containsKey(sortedStrs[i])){
+                mapOfAnagrams.get(sortedStrs[i]).add(strs[i]);
+            }
+
+          if (!mapOfAnagrams.containsKey(sortedStrs[i])){
+              mapOfAnagrams.put(sortedStrs[i], new ArrayList<>());
+              mapOfAnagrams.get(sortedStrs[i]).add(strs[i]);
+          }
+
+      }
+        finalList.addAll(mapOfAnagrams.values());
+
+
+        return finalList;
     }
 
 }
