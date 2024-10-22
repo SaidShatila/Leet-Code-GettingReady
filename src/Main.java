@@ -4,6 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         int[] nums = {1, 2, 3, 6, 5, 3};
+        int[] numsKExcept = {1, 2, 4, 6};
         int target = 11;
         String[] strs = {"act", "pots", "tops", "cat", "stop", "hat"};
         String stringOne = "racecar";
@@ -40,6 +41,8 @@ public class Main {
         System.out.println(isAnagram(stringOne, stringTwo));
         System.out.println(Arrays.toString(twoSum(nums, target)));
         System.out.println(groupAnagrams(strs));
+
+        System.out.println(Arrays.toString(productExceptSelf(numsKExcept)));
 
     }
 
@@ -173,5 +176,35 @@ public class Main {
             decoded.add(str.substring(j + 1, i));
         }
         return decoded;
+    }
+
+
+    public static int[] productExceptSelf(int[] nums) {
+        int[] listProduct = new int[nums.length];
+
+        for (int i = 0; i < nums.length; i++) {
+            if (i != 0) {
+                int multipliedValue = nums[i] * listProduct[i - 1];
+                listProduct[i] = multipliedValue;
+            } else {
+                listProduct[i] = nums[i];
+            }
+            System.out.println("PREFIX LOOP" + Arrays.toString(listProduct));
+
+        }
+
+        System.out.println("PREFIX DONE" + Arrays.toString(listProduct));
+        for (int i = nums.length; i > 0; i--) {
+            if (i != nums.length) {
+                int multipliedValue = nums[i] * nums[i - 1];
+                listProduct[i - 1] = multipliedValue;
+            } else {
+                listProduct[i - 1] = nums[i - 1] * nums[i - 1];
+            }
+            System.out.println("SUFFIX LOOP" + Arrays.toString(listProduct));
+        }
+        System.out.println("SUFFIX DONE" + Arrays.toString(listProduct));
+
+        return listProduct;
     }
 }
