@@ -5,6 +5,27 @@ public class Main {
     public static void main(String[] args) {
         int[] nums = {1, 2, 3, 6, 5, 3};
         int[] numsKExcept = {1, 2, 4, 6};
+        char[][] board = {{'1', '2', '.', '.', '3', '.', '.', '.', '.'},
+                {'4', '.', '.', '5', '.', '.', '.', '.', '.'},
+                {'.', '9', '1', '.', '.', '.', '.', '.', '3'},
+                {'5', '.', '.', '.', '6', '.', '.', '.', '4'},
+                {'.', '.', '.', '8', '.', '3', '.', '.', '5'},
+                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+                {'.', '.', '.', '.', '.', '.', '2', '.', '.'},
+                {'.', '.', '.', '4', '1', '9', '.', '.', '8'},
+                {'.', '.', '.', '.', '8', '.', '.', '7', '9'}};
+
+        char[][] boardTwo = {
+                {'.', '.', '4', '.', '.', '.', '6', '3', '.'},
+                {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
+                {'5', '.', '.', '.', '.', '.', '.', '9', '.'},
+                {'.', '.', '.', '5', '6', '.', '.', '.', '.'},
+                {'4', '.', '3', '.', '.', '.', '.', '.', '1'},
+                {'.', '.', '.', '7', '.', '.', '.', '.', '.'},
+                {'.', '.', '.', '5', '.', '.', '.', '.', '.'},
+                {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
+                {'.', '.', '.', '.', '.', '.', '.', '.', '.'}
+        };
         int target = 11;
         String[] strs = {"act", "pots", "tops", "cat", "stop", "hat"};
         String stringOne = "racecar";
@@ -43,6 +64,7 @@ public class Main {
         System.out.println(groupAnagrams(strs));
 
         System.out.println(Arrays.toString(productExceptSelf(numsKExcept)));
+        System.out.println(isValidSudoku(boardTwo));
 
     }
 
@@ -190,12 +212,179 @@ public class Main {
 
         System.out.println("PREFIX DONE" + Arrays.toString(listProduct));
         runningProduct = 1;
-        for (int i = listProduct.length - 1 ; i >= 0; i--) {
+        for (int i = listProduct.length - 1; i >= 0; i--) {
             listProduct[i] *= runningProduct;
             runningProduct *= nums[i];
         }
         System.out.println("SUFFIX DONE" + Arrays.toString(listProduct));
 
         return listProduct;
+    }
+
+    public static boolean isValidSudokuSaid(char[][] board) {
+        HashMap<Integer, List<Character>> mapOfThree = new HashMap<>();
+
+        for (int i = 0; i <= board.length - 1; i++) {
+            System.out.println();
+            for (int j = 0; j <= board[i].length - 1; j++) {
+                switch (i) {
+                    case 0, 1, 2: {
+                        switch (j) {
+                            case 0, 1, 2: {
+                                List<Character> list = mapOfThree.computeIfAbsent(1, k -> new ArrayList<>());
+                                list.add(board[i][j]);
+                                break;
+                            }
+                            case 3, 4, 5: {
+                                List<Character> list = mapOfThree.computeIfAbsent(2, k -> new ArrayList<>());
+                                list.add(board[i][j]);
+                                break;
+                            }
+                            case 6, 7, 8: {
+                                List<Character> list = mapOfThree.computeIfAbsent(3, k -> new ArrayList<>());
+                                list.add(board[i][j]);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    case 3, 4, 5: {
+                        switch (j) {
+                            case 0, 1, 2: {
+                                List<Character> list = mapOfThree.computeIfAbsent(4, k -> new ArrayList<>());
+                                list.add(board[i][j]);
+                                break;
+                            }
+                            case 3, 4, 5: {
+                                List<Character> list = mapOfThree.computeIfAbsent(5, k -> new ArrayList<>());
+                                list.add(board[i][j]);
+                                break;
+                            }
+                            case 6, 7, 8: {
+                                List<Character> list = mapOfThree.computeIfAbsent(6, k -> new ArrayList<>());
+                                list.add(board[i][j]);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    case 6, 7, 8: {
+                        switch (j) {
+                            case 0, 1, 2: {
+                                List<Character> list = mapOfThree.computeIfAbsent(7, k -> new ArrayList<>());
+                                list.add(board[i][j]);
+                                break;
+                            }
+                            case 3, 4, 5: {
+                                List<Character> list = mapOfThree.computeIfAbsent(8, k -> new ArrayList<>());
+                                list.add(board[i][j]);
+                                break;
+                            }
+                            case 6, 7, 8: {
+                                List<Character> list = mapOfThree.computeIfAbsent(9, k -> new ArrayList<>());
+                                list.add(board[i][j]);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (HashMap.Entry<Integer, List<Character>> entry : mapOfThree.entrySet()) {
+            List<Character> list = entry.getValue();
+
+            HashSet<Character> seenValues = new HashSet<>(); // Track seen values within the current box
+
+            // Iterate over each character in the current box
+            for (Character value : list) {
+                // Ignore empty cells represented by '.'
+                if (value == '.') {
+                    continue;
+                }
+
+                if (seenValues.contains(value)) {
+                    // Duplicate found within the current box
+                    return false; // Return false if a duplicate is found
+                } else {
+                    // Add this value to the seen set
+                    seenValues.add(value);
+                }
+            }
+        }
+        printMapThreeByThree(mapOfThree);
+        return true;
+    }
+
+    public static boolean isValidSudoku(char[][] board) {
+
+        for (int i = 0; i < 9; i++) {
+            Set<Character> rowSet = new HashSet<>();
+            Set<Character> colSet = new HashSet<>();
+
+            for (int j = 0; j < 9; j++) {
+                char rowChar = board[i][j];
+                if (rowChar != '.') {
+                    if (rowSet.contains(rowChar)) {
+                        return false;
+                    } else {
+                        rowSet.add(rowChar);
+                    }
+                }
+
+                char colChar = board[j][i];
+                if (colChar != '.') {
+                    if (colSet.contains(colChar)) {
+                        return false;
+                    } else {
+                        colSet.add(colChar);
+                    }
+                }
+            }
+        }
+
+        HashMap<Integer, List<Character>> mapOfThree = new HashMap<>();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                int boxKey = (i / 3) * 3 + (j / 3) + 1;
+
+                List<Character> list = mapOfThree.computeIfAbsent(boxKey, k -> new ArrayList<>());
+                list.add(board[i][j]);
+            }
+        }
+        for (Map.Entry<Integer, List<Character>> entry : mapOfThree.entrySet()) {
+            List<Character> list = entry.getValue();
+
+            HashSet<Character> seenValues = new HashSet<>();
+            for (Character value : list) {
+                if (value == '.') {continue;}
+                if (seenValues.contains(value)) {
+                    return false;
+                } else {
+                    seenValues.add(value);
+                }
+            }
+        }
+        return true;
+    }
+
+
+    public static void printMapThreeByThree(HashMap<Integer, List<Character>> hashMap) {
+        for (Map.Entry<Integer, List<Character>> entry : hashMap.entrySet()) {
+            Integer key = entry.getKey();
+            List<Character> list = entry.getValue();
+
+            System.out.println("Box Key: " + key);
+            int count = 0;
+            for (Character charArray : list) {
+                System.out.print(Arrays.toString(charArray.toString().toCharArray()) + " ");
+                count++;
+                if (count % 3 == 0) {
+                    System.out.println(); // New line after every 3 elements to create a 3x3 format
+                }
+            }
+            System.out.println("\n----------------------");
+        }
     }
 }
