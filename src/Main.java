@@ -182,26 +182,17 @@ public class Main {
     public static int[] productExceptSelf(int[] nums) {
         int[] listProduct = new int[nums.length];
 
+        int runningProduct = 1;
         for (int i = 0; i < nums.length; i++) {
-            if (i != 0) {
-                int multipliedValue = nums[i] * listProduct[i - 1];
-                listProduct[i] = multipliedValue;
-            } else {
-                listProduct[i] = nums[i];
-            }
-            System.out.println("PREFIX LOOP" + Arrays.toString(listProduct));
-
+            listProduct[i] = runningProduct; // Set the value for the current index
+            runningProduct *= nums[i];  // Update running product with the current valu
         }
 
         System.out.println("PREFIX DONE" + Arrays.toString(listProduct));
-        for (int i = nums.length; i > 0; i--) {
-            if (i != nums.length) {
-                int multipliedValue = nums[i] * nums[i - 1];
-                listProduct[i - 1] = multipliedValue;
-            } else {
-                listProduct[i - 1] = nums[i - 1] * nums[i - 1];
-            }
-            System.out.println("SUFFIX LOOP" + Arrays.toString(listProduct));
+        runningProduct = 1;
+        for (int i = listProduct.length - 1 ; i >= 0; i--) {
+            listProduct[i] *= runningProduct;
+            runningProduct *= nums[i];
         }
         System.out.println("SUFFIX DONE" + Arrays.toString(listProduct));
 
