@@ -6,6 +6,9 @@ public class Main {
         int[] nums = {1, 2, 3, 6, 5, 3};
         int[] numsKExcept = {1, 2, 4, 6};
         int[] numsSorted = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6}; //0,3,2,5,4,6,1,1
+        String isPalindrome = "Was it a car or a cat I saw?";
+        String isPalindromeTwo = "tab a cat";
+        String isPalindromeThree ="0P";
         char[][] board = {{'1', '2', '.', '.', '3', '.', '.', '.', '.'},
                 {'4', '.', '.', '5', '.', '.', '.', '.', '.'},
                 {'.', '9', '1', '.', '.', '.', '.', '.', '3'},
@@ -67,6 +70,7 @@ public class Main {
         System.out.println(Arrays.toString(productExceptSelf(numsKExcept)));
         System.out.println(isValidSudoku(boardTwo));
         System.out.println(longestConsecutive(numsSorted));
+        System.out.println(isPalindrome(isPalindromeThree));
 
 
     }
@@ -388,14 +392,30 @@ public class Main {
             if (Math.abs(sortedSums[i - 1] - sortedSums[i]) == 1) {
                 consSeq++;
             } else {
-                maxSeq = Math.max(maxSeq,consSeq);
+                maxSeq = Math.max(maxSeq, consSeq);
                 consSeq = 1;
             }
         }
 
-        return Math.max(maxSeq,consSeq);
+        return Math.max(maxSeq, consSeq);
     }
 
+
+    public static boolean isPalindrome(String s) {
+       String loweredCase = s.toLowerCase().replaceAll("[^[a-zA-Z0-9]*$]","");
+        System.out.println(loweredCase);
+        int left = 0;
+        int right = loweredCase.length() - 1;
+        while (left <= right) {
+            if (loweredCase.charAt(left) == loweredCase.charAt(right)) {
+                left++;
+                right--;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static void printMapThreeByThree(HashMap<Integer, List<Character>> hashMap) {
         for (Map.Entry<Integer, List<Character>> entry : hashMap.entrySet()) {
