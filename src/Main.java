@@ -206,8 +206,14 @@ public class Main {
 
         int runningProduct = 1;
         for (int i = 0; i < nums.length; i++) {
-            listProduct[i] = runningProduct; // Set the value for the current index
-            runningProduct *= nums[i];  // Update running product with the current valu
+            if (i != 0) {
+                int multipliedValue = nums[i] * listProduct[i - 1];
+                listProduct[i] = multipliedValue;
+            } else {
+                listProduct[i] = nums[i];
+            }
+            System.out.println("PREFIX LOOP" + Arrays.toString(listProduct));
+
         }
 
         System.out.println("PREFIX DONE" + Arrays.toString(listProduct));
