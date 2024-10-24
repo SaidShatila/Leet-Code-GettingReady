@@ -5,6 +5,7 @@ public class Main {
     public static void main(String[] args) {
         int[] nums = {1, 2, 3, 6, 5, 3};
         int[] numsKExcept = {1, 2, 4, 6};
+        int[] numsSorted = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6}; //0,3,2,5,4,6,1,1
         char[][] board = {{'1', '2', '.', '.', '3', '.', '.', '.', '.'},
                 {'4', '.', '.', '5', '.', '.', '.', '.', '.'},
                 {'.', '9', '1', '.', '.', '.', '.', '.', '3'},
@@ -65,6 +66,8 @@ public class Main {
 
         System.out.println(Arrays.toString(productExceptSelf(numsKExcept)));
         System.out.println(isValidSudoku(boardTwo));
+        System.out.println(longestConsecutive(numsSorted));
+
 
     }
 
@@ -358,7 +361,9 @@ public class Main {
 
             HashSet<Character> seenValues = new HashSet<>();
             for (Character value : list) {
-                if (value == '.') {continue;}
+                if (value == '.') {
+                    continue;
+                }
                 if (seenValues.contains(value)) {
                     return false;
                 } else {
@@ -367,6 +372,28 @@ public class Main {
             }
         }
         return true;
+    }
+
+    public static int longestConsecutive(int[] sums) {
+        if (sums.length == 0) return 0;
+        int consSeq = 1;
+        int maxSeq = 1;
+        int[] sortedSums = Arrays.stream(sums).sorted().toArray();
+
+        System.out.println(Arrays.toString(sortedSums));
+        for (int i = 1; i < sortedSums.length; i++) {
+            if (sortedSums[i - 1] == sortedSums[i]) {
+                continue;
+            }
+            if (Math.abs(sortedSums[i - 1] - sortedSums[i]) == 1) {
+                consSeq++;
+            } else {
+                maxSeq = Math.max(maxSeq,consSeq);
+                consSeq = 1;
+            }
+        }
+
+        return Math.max(maxSeq,consSeq);
     }
 
 
