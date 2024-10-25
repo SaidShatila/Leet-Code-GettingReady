@@ -4,11 +4,12 @@ public class Main {
 
     public static void main(String[] args) {
         int[] nums = {1, 2, 3, 6, 5, 3};
+        int[] numsSorted = {2,3,4,};
         int[] numsKExcept = {1, 2, 4, 6};
-        int[] numsSorted = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6}; //0,3,2,5,4,6,1,1
+        int[] numsSortedTobe = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6}; //0,3,2,5,4,6,1,1
         String isPalindrome = "Was it a car or a cat I saw?";
         String isPalindromeTwo = "tab a cat";
-        String isPalindromeThree ="0P";
+        String isPalindromeThree = "0P";
         char[][] board = {{'1', '2', '.', '.', '3', '.', '.', '.', '.'},
                 {'4', '.', '.', '5', '.', '.', '.', '.', '.'},
                 {'.', '9', '1', '.', '.', '.', '.', '.', '3'},
@@ -30,7 +31,7 @@ public class Main {
                 {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
                 {'.', '.', '.', '.', '.', '.', '.', '.', '.'}
         };
-        int target = 11;
+        int target = 6;
         String[] strs = {"act", "pots", "tops", "cat", "stop", "hat"};
         String stringOne = "racecar";
         String stringTwo = "carrace";
@@ -64,13 +65,16 @@ public class Main {
         System.out.println("Decoded: " + decoded);
 
         System.out.println(isAnagram(stringOne, stringTwo));
-        System.out.println(Arrays.toString(twoSum(nums, target)));
+//        System.out.println(Arrays.toString(twoSum(nums, target)));
         System.out.println(groupAnagrams(strs));
 
         System.out.println(Arrays.toString(productExceptSelf(numsKExcept)));
         System.out.println(isValidSudoku(boardTwo));
         System.out.println(longestConsecutive(numsSorted));
         System.out.println(isPalindrome(isPalindromeThree));
+
+
+        System.out.println(Arrays.toString(twoSum(numsSorted, target)));
 
 
     }
@@ -113,26 +117,26 @@ public class Main {
         return charCount.isEmpty();
     }
 
-    public static int[] twoSum(int[] nums, int target) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int index = 0;
-
-        for (int n : nums) {
-            int complement = target - n;
-
-            // If the complement exists in the map, return both indices
-            if (map.containsKey(complement)) {
-                return new int[]{map.get(complement), index};
-            }
-
-            // Store the current value and its index
-            map.put(n, index);
-            index++;
-        }
-
-        // In case no solution is found, though this shouldn't happen per the problem guarantees
-        throw new IllegalArgumentException("No two sum solution");
-    }
+//    public static int[] twoSum(int[] nums, int target) {
+//        HashMap<Integer, Integer> map = new HashMap<>();
+//        int index = 0;
+//
+//        for (int n : nums) {
+//            int complement = target - n;
+//
+//            // If the complement exists in the map, return both indices
+//            if (map.containsKey(complement)) {
+//                return new int[]{map.get(complement), index};
+//            }
+//
+//            // Store the current value and its index
+//            map.put(n, index);
+//            index++;
+//        }
+//
+//        // In case no solution is found, though this shouldn't happen per the problem guarantees
+//        throw new IllegalArgumentException("No two sum solution");
+//    }
 
     public static List<List<String>> groupAnagrams(String[] strs) {
         String[] sortedStrs = new String[strs.length];
@@ -408,7 +412,7 @@ public class Main {
 
 
     public static boolean isPalindrome(String s) {
-       String loweredCase = s.toLowerCase().replaceAll("[^[a-zA-Z0-9]*$]","");
+        String loweredCase = s.toLowerCase().replaceAll("[^[a-zA-Z0-9]*$]", "");
         System.out.println(loweredCase);
         int left = 0;
         int right = loweredCase.length() - 1;
@@ -421,6 +425,29 @@ public class Main {
             }
         }
         return true;
+    }
+
+    public static int[] twoSum(int[] numbers, int target) {
+        int[] twoSum = new int[2];
+        int i = 0;
+        int j = 1;
+        int left = numbers[i];
+        int right = numbers[numbers.length - j];
+        while (left != right) {
+            if (numbers[i] + numbers[numbers.length-j] == target) {
+                twoSum[0] = i + 1;
+                twoSum[1] = numbers.length-j +1;
+                break;
+            }
+            if (numbers[i] + numbers[numbers.length-j]< target) {
+                i++;
+                left = numbers[i];
+            } else if (numbers[i] + numbers[numbers.length-j] > target) {
+                j++;
+                right = numbers[numbers.length- j];
+            }
+        }
+        return twoSum;
     }
 
     public static void printMapThreeByThree(HashMap<Integer, List<Character>> hashMap) {
