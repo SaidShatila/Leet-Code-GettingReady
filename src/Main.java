@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         int[] nums = {1, 2, 3, 6, 5, 3};
-        int[] numsSorted = {2,3,4,};
+        int[] numsSorted = {2,3,4};
         int[] numsKExcept = {1, 2, 4, 6};
         int[] numsSortedTobe = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6}; //0,3,2,5,4,6,1,1
         String isPalindrome = "Was it a car or a cat I saw?";
@@ -31,7 +31,7 @@ public class Main {
                 {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
                 {'.', '.', '.', '.', '.', '.', '.', '.', '.'}
         };
-        int target = 6;
+        int target = 0;
         String[] strs = {"act", "pots", "tops", "cat", "stop", "hat"};
         String stringOne = "racecar";
         String stringTwo = "carrace";
@@ -74,7 +74,7 @@ public class Main {
         System.out.println(isPalindrome(isPalindromeThree));
 
 
-        System.out.println(Arrays.toString(twoSum(numsSorted, target)));
+        System.out.println(Arrays.toString(twoSum(nums, target)));
 
 
     }
@@ -428,6 +428,7 @@ public class Main {
     }
 
     public static int[] twoSum(int[] numbers, int target) {
+        //Leet code version is left <= right neet code left != right
         int[] twoSum = new int[2];
         int i = 0;
         int j = 1;
@@ -448,6 +449,11 @@ public class Main {
             }
         }
         return twoSum;
+    }
+
+    public List<List<Integer>> threeSum(int[] nums) {
+
+        return Collections.emptyList();
     }
 
     public static void printMapThreeByThree(HashMap<Integer, List<Character>> hashMap) {
