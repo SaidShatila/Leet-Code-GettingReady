@@ -4,8 +4,9 @@ public class Main {
 
     public static void main(String[] args) {
         int[] nums = {1, 2, 3, 6, 5, 3};
-        int[] numsSorted = {2,3,4};
+        int[] numsSorted = {2, 3, 4};
         int[] numsKExcept = {1, 2, 4, 6};
+        int[] threeSumsArray = {-1, 0, 1, 2, -1, -4};
         int[] numsSortedTobe = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6}; //0,3,2,5,4,6,1,1
         String isPalindrome = "Was it a car or a cat I saw?";
         String isPalindromeTwo = "tab a cat";
@@ -75,6 +76,7 @@ public class Main {
 
 
         System.out.println(Arrays.toString(twoSum(nums, target)));
+        System.out.println(threeSum(threeSumsArray));
 
 
     }
@@ -435,25 +437,43 @@ public class Main {
         int left = numbers[i];
         int right = numbers[numbers.length - j];
         while (left != right) {
-            if (numbers[i] + numbers[numbers.length-j] == target) {
+            if (numbers[i] + numbers[numbers.length - j] == target) {
                 twoSum[0] = i + 1;
-                twoSum[1] = numbers.length-j +1;
+                twoSum[1] = numbers.length - j + 1;
                 break;
             }
-            if (numbers[i] + numbers[numbers.length-j]< target) {
+            if (numbers[i] + numbers[numbers.length - j] < target) {
                 i++;
                 left = numbers[i];
-            } else if (numbers[i] + numbers[numbers.length-j] > target) {
+            } else if (numbers[i] + numbers[numbers.length - j] > target) {
                 j++;
-                right = numbers[numbers.length- j];
+                right = numbers[numbers.length - j];
             }
         }
         return twoSum;
     }
 
-    public List<List<Integer>> threeSum(int[] nums) {
-
-        return Collections.emptyList();
+    public static List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> threeSum = new ArrayList<>();
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            int j = i + 1;
+            int k = nums.length - 1;
+            while (j < k) {
+                int sum = nums[i] + nums[j] + nums[k];
+                if (sum == 0) {
+                    List<Integer> newList = Arrays.asList(nums[i], nums[j], nums[k]);
+                    threeSum.add(newList);
+                    j++;
+                    k--;
+                    while (j < k && nums[j] == nums[j - 1]) j++;
+                    while (j < k && nums[k] == nums[k + 1]) k--;
+                } else if (sum < 0) j++;
+                else k--;
+            }
+        }
+        return threeSum;
     }
 
     public static void printMapThreeByThree(HashMap<Integer, List<Character>> hashMap) {
