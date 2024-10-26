@@ -8,6 +8,8 @@ public class Main {
         int[] numsKExcept = {1, 2, 4, 6};
         int[] threeSumsArray = {-1, 0, 1, 2, -1, -4};
         int[] numsSortedTobe = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6}; //0,3,2,5,4,6,1,1
+        int[] heights = {1, 7, 2, 5, 4, 7, 3, 6};
+        int[] height = {0,2,0,3,1,0,1,3,2,1};
         String isPalindrome = "Was it a car or a cat I saw?";
         String isPalindromeTwo = "tab a cat";
         String isPalindromeThree = "0P";
@@ -77,6 +79,8 @@ public class Main {
 
         System.out.println(Arrays.toString(twoSum(nums, target)));
         System.out.println(threeSum(threeSumsArray));
+        System.out.println(maxArea(heights));
+        System.out.println(trap(height));
 
 
     }
@@ -475,6 +479,69 @@ public class Main {
         }
         return threeSum;
     }
+
+    public static int maxArea(int[] heights) {
+        int i = 0;
+        int j = heights.length - 1;
+        int biggestArea = 0;
+        while (i < j) {
+            int left = heights[i];
+            int right = heights[j];
+            int area = (j - i) * (Math.min(left, right));
+            biggestArea = Math.max(biggestArea, area);
+            if (left > right) {
+                j--;
+            } else {
+                i++;
+            }
+        }
+        return biggestArea;
+    }
+
+    public static int trap(int[] height) {
+        int i = 0;
+        int j = i + 1;
+        int trap = 0;
+        while (j < (height.length - 1)) {
+//            int left = height[i];
+//            int right = height[j];
+//            if (left == 0) i++;
+//            if (right == 0 || right < left) j++;
+//            if (height[i + 1] < left && height[i + 1] < right) {
+//                j = j + 2;
+//                trap += Math.min(left, right);
+//            }
+            int left = height[i];
+            int right = height[j];
+            if (height[i+1] < left && height[i+1] < right){
+                i = j;
+                trap += Math.min(left,right);
+            };
+            if (height[j-1] < left && height[j-1]<right && right != height.length - 1) trap += height[j-1];
+            if (left == 0) i++;
+            else j++;
+        }
+        return trap;
+    }
+
+    //latest submit solution
+    //class Solution {
+    //    public int trap(int[] height) {
+    //             int i = 0;
+    //        int j = i + 2;
+    //        int trap = 0;
+    //        while (j < (height.length - 1)) {
+    //            int left = height[i];
+    //            int right = height[j];
+    //            if (height[i+1] < left && height[i+1] < right) trap += Math.min(left,right);
+    //            if (height[j-1] < left && height[j-1]<right) trap += height[j-1];
+    //            if (left == 0) i++;
+    //            else j++;
+    //        }
+    //        return trap;
+    //    }
+    //}
+
 
     public static void printMapThreeByThree(HashMap<Integer, List<Character>> hashMap) {
         for (Map.Entry<Integer, List<Character>> entry : hashMap.entrySet()) {
