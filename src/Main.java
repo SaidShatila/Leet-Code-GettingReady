@@ -9,7 +9,9 @@ public class Main {
         int[] threeSumsArray = {-1, 0, 1, 2, -1, -4};
         int[] numsSortedTobe = {9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6}; //0,3,2,5,4,6,1,1
         int[] heights = {1, 7, 2, 5, 4, 7, 3, 6};
-        int[] height = {0,2,0,3,1,0,1,3,2,1};
+        int[] height = {0, 2, 0, 3, 1, 0, 1, 3, 2, 1};
+        int[] prices = {7, 1, 5, 3, 6, 4};
+        String longestSubString = "c";
         String isPalindrome = "Was it a car or a cat I saw?";
         String isPalindromeTwo = "tab a cat";
         String isPalindromeThree = "0P";
@@ -81,6 +83,8 @@ public class Main {
         System.out.println(threeSum(threeSumsArray));
         System.out.println(maxArea(heights));
         System.out.println(trap(height));
+        System.out.println(maxProfit(prices));
+        System.out.println(lengthOfLongestSubstring(longestSubString));
 
 
     }
@@ -500,48 +504,66 @@ public class Main {
 
     public static int trap(int[] height) {
         int i = 0;
-        int j = i + 1;
+        int j = height.length - 1;
         int trap = 0;
-        while (j < (height.length - 1)) {
-//            int left = height[i];
-//            int right = height[j];
-//            if (left == 0) i++;
-//            if (right == 0 || right < left) j++;
-//            if (height[i + 1] < left && height[i + 1] < right) {
-//                j = j + 2;
-//                trap += Math.min(left, right);
-//            }
+        int maxHeightLeft = height[i];
+        int maxHeightRight = height[j];
+        while (i < j) {
             int left = height[i];
             int right = height[j];
-            if (height[i+1] < left && height[i+1] < right){
-                i = j;
-                trap += Math.min(left,right);
-            };
-            if (height[j-1] < left && height[j-1]<right && right != height.length - 1) trap += height[j-1];
-            if (left == 0) i++;
-            else j++;
+
+            if (left < right) {
+                maxHeightLeft = Math.max(left, maxHeightLeft);
+                i++;
+            }
+            if (right <= left) {
+                maxHeightRight = Math.max(right, maxHeightRight);
+                j--;
+            }
+            if (maxHeightLeft > left) trap += maxHeightLeft - left;
+            if (maxHeightRight > right) trap += maxHeightRight - right;
         }
         return trap;
     }
 
-    //latest submit solution
-    //class Solution {
-    //    public int trap(int[] height) {
-    //             int i = 0;
-    //        int j = i + 2;
-    //        int trap = 0;
-    //        while (j < (height.length - 1)) {
-    //            int left = height[i];
-    //            int right = height[j];
-    //            if (height[i+1] < left && height[i+1] < right) trap += Math.min(left,right);
-    //            if (height[j-1] < left && height[j-1]<right) trap += height[j-1];
-    //            if (left == 0) i++;
-    //            else j++;
-    //        }
-    //        return trap;
-    //    }
-    //}
+    public static int maxProfit(int[] prices) {
+        if (prices == null || prices.length == 0) {
+            return 0;
+        }
+        int profit = 0;
+        int buy = prices[0];
+        for (int i = 1; i < prices.length; i++) {
+            int averageProfit = prices[i] - buy;
+            if (averageProfit > profit) profit = averageProfit;
+            else buy += Math.min(buy, prices[i]);
+        }
 
+        return profit;
+    }
+
+    public static int lengthOfLongestSubstring(String s) {
+        if (s == null) {
+            return 0;
+        }
+
+        int left = 0;
+        int maxLength = 0;
+        HashSet<Character> uniqueChars = new HashSet<>();
+
+        for (int right = 0; right < s.length(); right++) {
+            char currentChar = s.charAt(right);
+
+            while (uniqueChars.contains(currentChar)) {
+                uniqueChars.remove(s.charAt(left));
+                left++;
+            }
+
+            uniqueChars.add(currentChar);
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+
+        return maxLength;
+    }
 
     public static void printMapThreeByThree(HashMap<Integer, List<Character>> hashMap) {
         for (Map.Entry<Integer, List<Character>> entry : hashMap.entrySet()) {
