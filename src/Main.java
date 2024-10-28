@@ -12,6 +12,7 @@ public class Main {
         int[] height = {0, 2, 0, 3, 1, 0, 1, 3, 2, 1};
         int[] prices = {7, 1, 5, 3, 6, 4};
         String longestSubString = "c";
+        String characterReplacement = "AABABBA";
         String isPalindrome = "Was it a car or a cat I saw?";
         String isPalindromeTwo = "tab a cat";
         String isPalindromeThree = "0P";
@@ -41,50 +42,51 @@ public class Main {
         String stringOne = "racecar";
         String stringTwo = "carrace";
 
-        int[] nums1 = {1, 2, 2, 3, 3, 3};
-        int k1 = 2;
-        System.out.println(Arrays.toString(topKFrequent(nums1, k1))); // Replace 'yourMethodName' with your function name
-
-        // Example 2
-        int[] nums2 = {1, 1, 1, 2, 2, 3};
-        int k2 = 1;
-        System.out.println(Arrays.toString(topKFrequent(nums2, k2)));
-
-        // Example 3
-        int[] nums3 = {7, 7, 8, 8, 8, 9};
-        int k3 = 2;
-        System.out.println(Arrays.toString(topKFrequent(nums3, k3)));
-
-        int[] nums4 = {1, 2, 2, 3, 3, 3};
-        int k4 = 2;
-        System.out.println(Arrays.toString(topKFrequent(nums4, k4)));
-
-        int[] nums5 = {1, 2};
-        int k5 = 2;
-        System.out.println(Arrays.toString(topKFrequent(nums5, k5)));
-
-        List<String> strs1 = Arrays.asList("hello", "world", "");
-        String encoded = encode(strs1);
-        System.out.println("Encoded: " + encoded);
-        List<String> decoded = decode(encoded);
-        System.out.println("Decoded: " + decoded);
-
-        System.out.println(isAnagram(stringOne, stringTwo));
+//        int[] nums1 = {1, 2, 2, 3, 3, 3};
+//        int k1 = 2;
+//        System.out.println(Arrays.toString(topKFrequent(nums1, k1))); // Replace 'yourMethodName' with your function name
+//
+//        // Example 2
+//        int[] nums2 = {1, 1, 1, 2, 2, 3};
+//        int k2 = 1;
+//        System.out.println(Arrays.toString(topKFrequent(nums2, k2)));
+//
+//        // Example 3
+//        int[] nums3 = {7, 7, 8, 8, 8, 9};
+//        int k3 = 2;
+//        System.out.println(Arrays.toString(topKFrequent(nums3, k3)));
+//
+//        int[] nums4 = {1, 2, 2, 3, 3, 3};
+//        int k4 = 2;
+//        System.out.println(Arrays.toString(topKFrequent(nums4, k4)));
+//
+//        int[] nums5 = {1, 2};
+//        int k5 = 2;
+//        System.out.println(Arrays.toString(topKFrequent(nums5, k5)));
+//
+//        List<String> strs1 = Arrays.asList("hello", "world", "");
+//        String encoded = encode(strs1);
+//        System.out.println("Encoded: " + encoded);
+//        List<String> decoded = decode(encoded);
+//        System.out.println("Decoded: " + decoded);
+//
+//        System.out.println(isAnagram(stringOne, stringTwo));
+////        System.out.println(Arrays.toString(twoSum(nums, target)));
+//        System.out.println(groupAnagrams(strs));
+//
+//        System.out.println(Arrays.toString(productExceptSelf(numsKExcept)));
+//        System.out.println(isValidSudoku(boardTwo));
+//        System.out.println(longestConsecutive(numsSorted));
+//        System.out.println(isPalindrome(isPalindromeThree));
+//
+//
 //        System.out.println(Arrays.toString(twoSum(nums, target)));
-        System.out.println(groupAnagrams(strs));
-
-        System.out.println(Arrays.toString(productExceptSelf(numsKExcept)));
-        System.out.println(isValidSudoku(boardTwo));
-        System.out.println(longestConsecutive(numsSorted));
-        System.out.println(isPalindrome(isPalindromeThree));
-
-
-        System.out.println(Arrays.toString(twoSum(nums, target)));
-        System.out.println(threeSum(threeSumsArray));
-        System.out.println(maxArea(heights));
-        System.out.println(trap(height));
-        System.out.println(maxProfit(prices));
-        System.out.println(lengthOfLongestSubstring(longestSubString));
+//        System.out.println(threeSum(threeSumsArray));
+//        System.out.println(maxArea(heights));
+//        System.out.println(trap(height));
+//        System.out.println(maxProfit(prices));
+//        System.out.println(lengthOfLongestSubstring(longestSubString));
+        System.out.println(characterReplacement(characterReplacement, 1));
 
 
     }
@@ -562,6 +564,31 @@ public class Main {
             maxLength = Math.max(maxLength, right - left + 1);
         }
 
+        return maxLength;
+    }
+
+    public static int characterReplacement(String s, int k) {
+        if (s == null) {
+            return 0;
+        }
+
+        int left = 0;
+        int maxFrequency = 0;
+        int maxLength = k;
+        HashMap<Character, Integer> charCount = new HashMap<>();
+        for (int right = 0; right < s.length(); right++) {
+            char currentChar = s.charAt(right);
+            charCount.put(currentChar, charCount.getOrDefault(currentChar, 0) + 1);
+            maxFrequency = Math.max(maxFrequency, charCount.get(currentChar));
+            int windowLength = right - left + 1;
+            while (windowLength - maxFrequency > k) {
+                char charAtLeft = s.charAt(left);
+                charCount.put(charAtLeft, charCount.get(charAtLeft) - 1);
+                left++;
+                windowLength = right - left + 1;
+            }
+            maxLength = Math.max(maxLength, windowLength);
+        }
         return maxLength;
     }
 
