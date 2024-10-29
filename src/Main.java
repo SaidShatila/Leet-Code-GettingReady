@@ -13,6 +13,9 @@ public class Main {
         int[] prices = {7, 1, 5, 3, 6, 4};
         String longestSubString = "c";
         String characterReplacement = "AABABBA";
+        String sOne = "ab";
+        String sTwo = "eidbaooo";
+        String isValidString = "([{}])";
         String isPalindrome = "Was it a car or a cat I saw?";
         String isPalindromeTwo = "tab a cat";
         String isPalindromeThree = "0P";
@@ -86,7 +89,9 @@ public class Main {
 //        System.out.println(trap(height));
 //        System.out.println(maxProfit(prices));
 //        System.out.println(lengthOfLongestSubstring(longestSubString));
-        System.out.println(characterReplacement(characterReplacement, 1));
+//        System.out.println(characterReplacement(characterReplacement, 1));
+//        System.out.println(checkInclusion(sOne, sTwo));
+        System.out.println(isValid(isValidString));
 
 
     }
@@ -342,7 +347,6 @@ public class Main {
                 }
             }
         }
-        printMapThreeByThree(mapOfThree);
         return true;
     }
 
@@ -592,21 +596,58 @@ public class Main {
         return maxLength;
     }
 
-    public static void printMapThreeByThree(HashMap<Integer, List<Character>> hashMap) {
-        for (Map.Entry<Integer, List<Character>> entry : hashMap.entrySet()) {
-            Integer key = entry.getKey();
-            List<Character> list = entry.getValue();
+    public static boolean checkInclusion(String s1, String s2) {
+        if (s1 == null || s2 == null || s1.length() > s2.length()) return false;
 
-            System.out.println("Box Key: " + key);
-            int count = 0;
-            for (Character charArray : list) {
-                System.out.print(Arrays.toString(charArray.toString().toCharArray()) + " ");
-                count++;
-                if (count % 3 == 0) {
-                    System.out.println(); // New line after every 3 elements to create a 3x3 format
-                }
-            }
-            System.out.println("\n----------------------");
+        HashMap<Character, Integer> sOneCharacters = new HashMap<>();
+        for (int i = 0; i < s1.length(); i++) {
+            sOneCharacters.put(s1.charAt(i), sOneCharacters.getOrDefault(s1.charAt(i), 0) + 1);
         }
+
+        int left = 0;
+        HashMap<Character, Integer> charCount = new HashMap<>();
+        for (int right = 0; right < s2.length(); right++) {
+            char character = s2.charAt(right);
+            charCount.put(character, charCount.getOrDefault(character, 0) + 1);
+
+
+            if (right - left + 1 > s1.length()) {
+                char charAtLeft = s2.charAt(left);
+                charCount.put(charAtLeft, charCount.get(charAtLeft) - 1);
+                if (charCount.get(charAtLeft) == 0) {
+                    charCount.remove(charAtLeft);
+                }
+                left++;
+            }
+            if (right - left + 1 == s1.length() && sOneCharacters.equals(charCount)) return true;
+
+        }
+        return false;
+    }
+
+    public static boolean isValid(String s) {
+        if (s == null) return false;
+        if (s.isBlank()) return true;
+
+        HashMap<Character, Character> bracketsMap = new HashMap<>();
+        bracketsMap.put(')', '(');
+        bracketsMap.put('}', '{');
+        bracketsMap.put(']', '[');
+
+        Stack<Character> isValid = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            if (isValid.isEmpty()) {
+                isValid.add(s.charAt(i));
+                continue;
+            }
+            if (isValid.lastElement() == bracketsMap.get(s.charAt(i))) {
+                isValid.pop();
+            } else {
+                isValid.add(s.charAt(i));
+            }
+        }
+
+        return isValid.isEmpty();
     }
 }
