@@ -4,6 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         int[] nums = {1, 2, 3, 6, 5, 3};
+        int[] numsDuplicateSorted = {1, 2, 3, 4, 5, 5, 5, 6, 7, 8, 8};
         int[] numsSorted = {2, 3, 4};
         int[] numsKExcept = {1, 2, 4, 6};
         int[] threeSumsArray = {-1, 0, 1, 2, -1, -4};
@@ -20,32 +21,24 @@ public class Main {
         String isPalindrome = "Was it a car or a cat I saw?";
         String isPalindromeTwo = "tab a cat";
         String isPalindromeThree = "0P";
-        char[][] board = {{'1', '2', '.', '.', '3', '.', '.', '.', '.'},
-                {'4', '.', '.', '5', '.', '.', '.', '.', '.'},
-                {'.', '9', '1', '.', '.', '.', '.', '.', '3'},
-                {'5', '.', '.', '.', '6', '.', '.', '.', '4'},
-                {'.', '.', '.', '8', '.', '3', '.', '.', '5'},
-                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
-                {'.', '.', '.', '.', '.', '.', '2', '.', '.'},
-                {'.', '.', '.', '4', '1', '9', '.', '.', '8'},
-                {'.', '.', '.', '.', '8', '.', '.', '7', '9'}};
+        char[][] board = {{'1', '2', '.', '.', '3', '.', '.', '.', '.'}, {'4', '.', '.', '5', '.', '.', '.', '.', '.'}, {'.', '9', '1', '.', '.', '.', '.', '.', '3'}, {'5', '.', '.', '.', '6', '.', '.', '.', '4'}, {'.', '.', '.', '8', '.', '3', '.', '.', '5'}, {'7', '.', '.', '.', '2', '.', '.', '.', '6'}, {'.', '.', '.', '.', '.', '.', '2', '.', '.'}, {'.', '.', '.', '4', '1', '9', '.', '.', '8'}, {'.', '.', '.', '.', '8', '.', '.', '7', '9'}};
 
-        char[][] boardTwo = {
-                {'.', '.', '4', '.', '.', '.', '6', '3', '.'},
-                {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
-                {'5', '.', '.', '.', '.', '.', '.', '9', '.'},
-                {'.', '.', '.', '5', '6', '.', '.', '.', '.'},
-                {'4', '.', '3', '.', '.', '.', '.', '.', '1'},
-                {'.', '.', '.', '7', '.', '.', '.', '.', '.'},
-                {'.', '.', '.', '5', '.', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', '.', '.', '.', '.', '.'}
-        };
+        char[][] boardTwo = {{'.', '.', '4', '.', '.', '.', '6', '3', '.'}, {'.', '.', '.', '.', '.', '.', '.', '.', '.'}, {'5', '.', '.', '.', '.', '.', '.', '9', '.'}, {'.', '.', '.', '5', '6', '.', '.', '.', '.'}, {'4', '.', '3', '.', '.', '.', '.', '.', '1'}, {'.', '.', '.', '7', '.', '.', '.', '.', '.'}, {'.', '.', '.', '5', '.', '.', '.', '.', '.'}, {'.', '.', '.', '.', '.', '.', '.', '.', '.'}, {'.', '.', '.', '.', '.', '.', '.', '.', '.'}};
         int target = 0;
         String[] strs = {"act", "pots", "tops", "cat", "stop", "hat"};
         String stringOne = "racecar";
         String stringTwo = "carrace";
-
+        String[] longestPrefix = {"flower", "flow", "flight"};
+        Utils.ListNode listOne = new Utils.ListNode(1);
+        listOne.next = new Utils.ListNode(2);
+        listOne.next.next = new Utils.ListNode(3);
+        listOne.next.next.next = new Utils.ListNode(4);
+        listOne.next.next.next.next = new Utils.ListNode(5);
+        Utils.ListNode listTwo = new Utils.ListNode(6);
+        listTwo.next = new Utils.ListNode(7);
+        listTwo.next.next = new Utils.ListNode(8);
+        listTwo.next.next.next = new Utils.ListNode(9);
+        listTwo.next.next.next.next = new Utils.ListNode(10);
 //        int[] nums1 = {1, 2, 2, 3, 3, 3};
 //        int k1 = 2;
 //        System.out.println(Arrays.toString(topKFrequent(nums1, k1))); // Replace 'yourMethodName' with your function name
@@ -93,8 +86,10 @@ public class Main {
 //        System.out.println(characterReplacement(characterReplacement, 1));
 //        System.out.println(checkInclusion(sOne, sTwo));
 //        System.out.println(isValid(isValidString));
-        System.out.println(romanToInt(romanString));
-
+//        System.out.println(romanToInt(romanString));
+        System.out.println(longestCommonPrefix(longestPrefix));
+        System.out.println(mergeTwoLists(listOne, listTwo));
+        System.out.println(removeDuplicates(numsDuplicateSorted));
 
     }
 
@@ -699,5 +694,75 @@ public class Main {
         }
 
         return isValid.isEmpty();
+    }
+
+    public static String longestCommonPrefix(String[] strs) {
+        String prefix = strs[0];
+        int i = 1;
+        while (i < strs.length) {
+            if (strs[i].startsWith(prefix)) {
+                i++;
+            } else {
+                prefix = prefix.substring(0, prefix.length() - 1);
+                i = 1;
+            }
+        }
+        return prefix;
+    }
+
+    public static Utils.ListNode mergeTwoLists(Utils.ListNode list1, Utils.ListNode list2) {
+        if (list1 == null) return list2;
+        if (list2 == null) return list1;
+        Utils.ListNode finalSortedList = new Utils.ListNode();
+        Utils.ListNode lastNext = new Utils.ListNode();
+
+        while (list1 != null || list2 != null) {
+            if (list1 == null) {
+                lastNext.next = new Utils.ListNode(list2.val);
+                list2 = list2.next;
+                if (finalSortedList.next == null) finalSortedList = lastNext.next;
+                lastNext = lastNext.next;
+                continue;
+            }
+            if (list2 == null) {
+                lastNext.next = new Utils.ListNode(list1.val);
+                list1 = list1.next;
+                if (finalSortedList.next == null) finalSortedList = lastNext.next;
+                lastNext = lastNext.next;
+
+                continue;
+            }
+            if (list1.val > list2.val) {
+                lastNext.next = new Utils.ListNode(list2.val);
+                list2 = list2.next;
+                if (finalSortedList.next == null) finalSortedList = lastNext.next;
+                lastNext = lastNext.next;
+
+            } else {
+                lastNext.next = new Utils.ListNode(list1.val);
+                list1 = list1.next;
+                if (finalSortedList.next == null) finalSortedList = lastNext.next;
+                lastNext = lastNext.next;
+
+            }
+        }
+        return finalSortedList;
+    }
+
+    public static int removeDuplicates(int[] nums) {
+        if (nums == null) return 0;
+        ArrayList<Integer> countWithoutDuplicate = new ArrayList<>();
+        countWithoutDuplicate.add(nums[0]);
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == nums[i - 1]) continue;
+            countWithoutDuplicate.add(nums[i]);
+        }
+
+
+        for (int i = 0; i < countWithoutDuplicate.size(); i++) {
+            nums[i] = countWithoutDuplicate.get(i);
+        }
+
+        return countWithoutDuplicate.size();
     }
 }
