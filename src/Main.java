@@ -21,6 +21,8 @@ public class Main {
         String isPalindrome = "Was it a car or a cat I saw?";
         String isPalindromeTwo = "tab a cat";
         String isPalindromeThree = "0P";
+        String haycat = "a";
+        String needle = "a";
         char[][] board = {{'1', '2', '.', '.', '3', '.', '.', '.', '.'}, {'4', '.', '.', '5', '.', '.', '.', '.', '.'}, {'.', '9', '1', '.', '.', '.', '.', '.', '3'}, {'5', '.', '.', '.', '6', '.', '.', '.', '4'}, {'.', '.', '.', '8', '.', '3', '.', '.', '5'}, {'7', '.', '.', '.', '2', '.', '.', '.', '6'}, {'.', '.', '.', '.', '.', '.', '2', '.', '.'}, {'.', '.', '.', '4', '1', '9', '.', '.', '8'}, {'.', '.', '.', '.', '8', '.', '.', '7', '9'}};
 
         char[][] boardTwo = {{'.', '.', '4', '.', '.', '.', '6', '3', '.'}, {'.', '.', '.', '.', '.', '.', '.', '.', '.'}, {'5', '.', '.', '.', '.', '.', '.', '9', '.'}, {'.', '.', '.', '5', '6', '.', '.', '.', '.'}, {'4', '.', '3', '.', '.', '.', '.', '.', '1'}, {'.', '.', '.', '7', '.', '.', '.', '.', '.'}, {'.', '.', '.', '5', '.', '.', '.', '.', '.'}, {'.', '.', '.', '.', '.', '.', '.', '.', '.'}, {'.', '.', '.', '.', '.', '.', '.', '.', '.'}};
@@ -87,9 +89,11 @@ public class Main {
 //        System.out.println(checkInclusion(sOne, sTwo));
 //        System.out.println(isValid(isValidString));
 //        System.out.println(romanToInt(romanString));
-        System.out.println(longestCommonPrefix(longestPrefix));
-        System.out.println(mergeTwoLists(listOne, listTwo));
-        System.out.println(removeDuplicates(numsDuplicateSorted));
+//        System.out.println(longestCommonPrefix(longestPrefix));
+//        System.out.println(mergeTwoLists(listOne, listTwo));
+//        System.out.println(removeDuplicates(numsDuplicateSorted));
+//        System.out.println(removeElement(numsDuplicateSorted));
+        System.out.println(strStr(haycat, needle));
 
     }
 
@@ -764,5 +768,45 @@ public class Main {
         }
 
         return countWithoutDuplicate.size();
+    }
+
+    public static int removeElement(int[] nums, int val) {
+        if (nums == null) return 0;
+        ArrayList<Integer> addNoneVal = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != val) addNoneVal.add(nums[i]);
+        }
+        for (int i = 0; i < addNoneVal.size(); i++) {
+            nums[i] = addNoneVal.get(i);
+        }
+
+        return nums.length;
+    }
+
+    public static int strStr(String haystack, String needle) {
+        if (haystack == null) return -1;
+        if (needle == null) return 0;
+        int m = haystack.length();
+        int n = needle.length();
+        for (int i = 0; i <= m - n; i++) {
+            if (haystack.substring(i, i + n).equals(needle))
+                return i;
+        }
+        return -1;
+    }
+
+    public static int searchInsert(int[] nums, int target) {
+        if (nums == null) return 0;
+        int i = 0;
+        int j = nums.length - 1;
+        while (i < j) {
+            if (nums[(i + j) / 2] == target) return (i + j) / 2;
+            if (nums[(i + j) / 2] > target) {
+                j--;
+            } else {
+                i++;
+            }
+        }
+        if (nums[i] > target) return i-1; else return i+1;
     }
 }
