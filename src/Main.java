@@ -93,7 +93,7 @@ public class Main {
 //        System.out.println(mergeTwoLists(listOne, listTwo));
 //        System.out.println(removeDuplicates(numsDuplicateSorted));
 //        System.out.println(removeElement(numsDuplicateSorted));
-        System.out.println(strStr(haycat, needle));
+        System.out.println(lengthOfLastWord("a "));
 
     }
 
@@ -807,6 +807,39 @@ public class Main {
                 i++;
             }
         }
-        if (nums[i] > target) return i-1; else return i+1;
+        if (nums[i] > target) return i - 1;
+        else return i + 1;
+    }
+
+    public static int lengthOfLastWord(String s) {
+        if (s == null) return 0;
+        if (s.length() == 1 && s.charAt(0) != ' ') return 1;
+        int lastWorldLength = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s.charAt(i) == ' ') {
+                if (lastWorldLength > 0) break;
+                continue;
+            } else {
+                lastWorldLength++;
+            }
+        }
+        return lastWorldLength;
+    }
+
+    public static int[] plusOne(int[] digits) {
+        if (digits == null) return new int[0];
+        int[] newPlusOne = new int[digits.length + 1];
+        for (int i = digits.length - 1; i >= 0; i--) {
+            if (digits[i] < 9) {
+                digits[i] = digits[i] + 1;
+                return digits;
+            }
+            digits[i] = 0;
+        }
+        newPlusOne[0] = 1;
+        for (int i = 1; i < newPlusOne.length; i++) {
+            newPlusOne[i] = 0;
+        }
+        return newPlusOne;
     }
 }
