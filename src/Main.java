@@ -93,7 +93,8 @@ public class Main {
 //        System.out.println(mergeTwoLists(listOne, listTwo));
 //        System.out.println(removeDuplicates(numsDuplicateSorted));
 //        System.out.println(removeElement(numsDuplicateSorted));
-        System.out.println(lengthOfLastWord("a "));
+//        System.out.println(addBinary("1010", "1011"));
+        System.out.println(climbStairs(5));
 
     }
 
@@ -842,4 +843,55 @@ public class Main {
         }
         return newPlusOne;
     }
+
+    public static String addBinary(String a, String b) {
+        if (a == null && b == null) return "0";
+        if (a == null) return b;
+        if (b == null) return a;
+
+        StringBuilder binaryNewValue = new StringBuilder();
+        int lengthA = a.length() - 1;
+        int lengthB = b.length() - 1;
+        char carry = '0';
+
+        while (lengthA >= 0 || lengthB >= 0) {
+            int bitA = (lengthA >= 0) ? a.charAt(lengthA) - '0' : 0;
+            int bitB = (lengthB >= 0) ? b.charAt(lengthB) - '0' : 0;
+            int sum = bitA + bitB + (carry - '0');
+
+            binaryNewValue.append(sum % 2);
+            carry = (sum / 2) == 1 ? '1' : '0';
+
+            lengthA--;
+            lengthB--;
+        }
+
+        if (carry == '1') binaryNewValue.append('1');
+
+
+        binaryNewValue.reverse();
+        return binaryNewValue.toString();
+    }
+
+    public static int mySqrt(int x) {
+        return (int) Math.sqrt(x);
+    }
+
+    public static int climbStairs(int n) {
+        if (n == 0) return 1;
+        if (n == 1) return 1;
+
+        int prev1 = 1;
+        int prev2 = 1;
+
+        for (int i = 2; i <= n; i++) {
+            int current = prev1 + prev2;
+            prev2 = prev1;
+            prev1 = current;
+        }
+
+        return prev1;
+    }
+
+
 }
