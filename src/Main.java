@@ -35,12 +35,27 @@ public class Main {
         listOne.next = new Utils.ListNode(2);
         listOne.next.next = new Utils.ListNode(3);
         listOne.next.next.next = new Utils.ListNode(4);
-        listOne.next.next.next.next = new Utils.ListNode(5);
+        listOne.next.next.next.next = new Utils.ListNode(4);
+        listOne.next.next.next.next.next = new Utils.ListNode(5);
+        listOne.next.next.next.next.next = new Utils.ListNode(5);
         Utils.ListNode listTwo = new Utils.ListNode(6);
         listTwo.next = new Utils.ListNode(7);
         listTwo.next.next = new Utils.ListNode(8);
         listTwo.next.next.next = new Utils.ListNode(9);
         listTwo.next.next.next.next = new Utils.ListNode(10);
+        Utils.ListNode listThree = new Utils.ListNode(1);
+        listThree.next = new Utils.ListNode(1);
+        listThree.next.next = new Utils.ListNode(2);
+        Utils.ListNode head = new Utils.ListNode(1);
+        head.next = new Utils.ListNode(1);
+        head.next.next = new Utils.ListNode(2);
+        head.next.next.next = new Utils.ListNode(3);
+        head.next.next.next.next = new Utils.ListNode(3);
+        Utils.ListNode headTwo = new Utils.ListNode(0);
+        head.next = new Utils.ListNode(0);
+        head.next.next = new Utils.ListNode(0);
+        head.next.next.next = new Utils.ListNode(0);
+        head.next.next.next.next = new Utils.ListNode(3);
 //        int[] nums1 = {1, 2, 2, 3, 3, 3};
 //        int k1 = 2;
 //        System.out.println(Arrays.toString(topKFrequent(nums1, k1))); // Replace 'yourMethodName' with your function name
@@ -94,7 +109,8 @@ public class Main {
 //        System.out.println(removeDuplicates(numsDuplicateSorted));
 //        System.out.println(removeElement(numsDuplicateSorted));
 //        System.out.println(addBinary("1010", "1011"));
-        System.out.println(climbStairs(5));
+//        System.out.println(climbStairs(5));
+        System.out.println(deleteDuplicates(headTwo));
 
     }
 
@@ -734,7 +750,6 @@ public class Main {
                 list1 = list1.next;
                 if (finalSortedList.next == null) finalSortedList = lastNext.next;
                 lastNext = lastNext.next;
-
                 continue;
             }
             if (list1.val > list2.val) {
@@ -748,7 +763,6 @@ public class Main {
                 list1 = list1.next;
                 if (finalSortedList.next == null) finalSortedList = lastNext.next;
                 lastNext = lastNext.next;
-
             }
         }
         return finalSortedList;
@@ -893,5 +907,23 @@ public class Main {
         return prev1;
     }
 
+    public static Utils.ListNode deleteDuplicates(Utils.ListNode head) {
+        if (head == null) return null;
+        Utils.ListNode finalSortedList = new Utils.ListNode(head.val);
+        Utils.ListNode lastNext = finalSortedList;
+        head = head.next;
+
+        while (head != null) {
+            if (finalSortedList.val != head.val) {
+                lastNext.next = new Utils.ListNode(head.val);
+                head = head.next;
+                if (finalSortedList.next == null) finalSortedList = lastNext.next;
+                lastNext = lastNext.next;
+            } else head = head.next;
+            System.out.println(finalSortedList.val);
+        }
+
+        return finalSortedList;
+    }
 
 }
