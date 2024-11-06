@@ -56,6 +56,8 @@ public class Main {
         head.next.next = new Utils.ListNode(0);
         head.next.next.next = new Utils.ListNode(0);
         head.next.next.next.next = new Utils.ListNode(3);
+        String s = "ADOBECODEBANC";
+        String t = "ABC";
 //        int[] nums1 = {1, 2, 2, 3, 3, 3};
 //        int k1 = 2;
 //        System.out.println(Arrays.toString(topKFrequent(nums1, k1))); // Replace 'yourMethodName' with your function name
@@ -110,7 +112,8 @@ public class Main {
 //        System.out.println(removeElement(numsDuplicateSorted));
 //        System.out.println(addBinary("1010", "1011"));
 //        System.out.println(climbStairs(5));
-        System.out.println(deleteDuplicates(headTwo));
+//        System.out.println(deleteDuplicates(headTwo));
+        System.out.println(minWindow(s, t));
 
     }
 
@@ -926,4 +929,44 @@ public class Main {
         return finalSortedList;
     }
 
+    public static String minWindow(String s, String t) {
+        if (s == null) return t;
+        if (t == null) return "";
+        if (t.length() > s.length()) return "";
+
+        HashMap<Character, Integer> hashMap = new HashMap<>();
+        for (Character character : t.toCharArray()) {
+            hashMap.put(character, hashMap.getOrDefault(character, 0) + 1);
+        }
+
+        int left = 0;
+        int formed = 0;
+        int required = hashMap.size();
+        int minLength = Integer.MAX_VALUE;
+        int minLeft = 0;
+
+        HashMap<Character, Integer> charCount = new HashMap<>();
+        for (int right = 0; right < s.length(); right++) {
+            char charAtRight = s.charAt(right);
+            charCount.put(charAtRight, charCount.getOrDefault(charAtRight, 0) + 1);
+            if (hashMap.containsKey(charAtRight) && charCount.get(charAtRight).intValue() == hashMap.get(charAtRight).intValue())
+                formed++;
+            while (formed == required) {
+                int windowLength = right - left + 1;
+                if (windowLength < minLength) {
+                    minLength = windowLength;
+                    minLeft = left;
+                }
+                char charAtLeft = s.charAt(left);
+                if (charCount.containsKey(charAtLeft)) {
+                    charCount.put(charAtLeft, charCount.get(charAtLeft) - 1);
+                    if (hashMap.containsKey(charAtLeft) && charCount.get(charAtLeft).intValue() < hashMap.get(charAtLeft).intValue()) formed--;
+                    if (charCount.get(charAtLeft) == 0) charCount.remove(charAtLeft);
+                }
+                left++;
+            }
+        }
+
+        return minLength == Integer.MAX_VALUE ? "" : s.substring(minLeft, minLeft + minLength);
+    }
 }
