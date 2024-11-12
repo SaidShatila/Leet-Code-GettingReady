@@ -12,6 +12,10 @@ public class Main {
         int[] heights = {1, 7, 2, 5, 4, 7, 3, 6};
         int[] height = {0, 2, 0, 3, 1, 0, 1, 3, 2, 1};
         int[] prices = {7, 1, 5, 3, 6, 4};
+        int[] nums1 = {2, 0};
+        int n = 1;
+        int[] nums2 = {1};
+        int m = 1;
         String longestSubString = "c";
         String characterReplacement = "AABABBA";
         String sOne = "ab";
@@ -58,6 +62,10 @@ public class Main {
         head.next.next.next.next = new Utils.ListNode(3);
         String s = "ADOBECODEBANC";
         String t = "ABC";
+        Utils.TreeNode root = new Utils.TreeNode(1);
+        root.right = new Utils.TreeNode(2);
+        root.right.left = new Utils.TreeNode(3);
+        String[] tempOperators = {"1","2","+","3","*","4","-"};
 //        int[] nums1 = {1, 2, 2, 3, 3, 3};
 //        int k1 = 2;
 //        System.out.println(Arrays.toString(topKFrequent(nums1, k1))); // Replace 'yourMethodName' with your function name
@@ -113,8 +121,10 @@ public class Main {
 //        System.out.println(addBinary("1010", "1011"));
 //        System.out.println(climbStairs(5));
 //        System.out.println(deleteDuplicates(headTwo));
-        System.out.println(minWindow(s, t));
-
+//        System.out.println(minWindow(s, t));
+//        merge(nums1, n, nums2, m);
+        System.out.println(inorderTraversal(root));
+        System.out.println(evalRPN(tempOperators));
     }
 
     public static boolean containsDuplicate(int[] nums) {
@@ -960,7 +970,8 @@ public class Main {
                 char charAtLeft = s.charAt(left);
                 if (charCount.containsKey(charAtLeft)) {
                     charCount.put(charAtLeft, charCount.get(charAtLeft) - 1);
-                    if (hashMap.containsKey(charAtLeft) && charCount.get(charAtLeft).intValue() < hashMap.get(charAtLeft).intValue()) formed--;
+                    if (hashMap.containsKey(charAtLeft) && charCount.get(charAtLeft).intValue() < hashMap.get(charAtLeft).intValue())
+                        formed--;
                     if (charCount.get(charAtLeft) == 0) charCount.remove(charAtLeft);
                 }
                 left++;
@@ -968,5 +979,99 @@ public class Main {
         }
 
         return minLength == Integer.MAX_VALUE ? "" : s.substring(minLeft, minLeft + minLength);
+    }
+
+    public static void merge(int[] nums1, int m, int[] nums2, int n) {
+        if (n == 0) return;
+        if (m == 0) {
+            System.arraycopy(nums2, 0, nums1, 0, nums2.length);
+            return;
+        }
+
+        int p1 = m - 1;
+        int p2 = n - 1;
+        int p = m + n - 1;
+
+        while (p1 >= 0 && p2 >= 0) {
+            if (nums1[p1] >= nums2[p2]) {
+                nums1[p] = nums1[p1];
+                p1--;
+            } else {
+                nums1[p] = nums2[p2];
+                p2--;
+            }
+            p--;
+        }
+
+        while (p2 >= 0) {
+            nums1[p] = nums2[p2];
+            p2--;
+            p--;
+        }
+    }
+
+    public static List<Integer> inorderTraversal(Utils.TreeNode root) {
+        if (root == null) return Collections.emptyList();
+        if (root.val == 1 && root.right == null && root.left == null) return List.of(1);
+        List<Integer> inOrderList = new ArrayList<>();
+        Utils.TreeNode left = root.left;
+        Utils.TreeNode right = root.right;
+        Utils.TreeNode pointer = root;
+        while (root != null) {
+            pointer = left;
+            if (left == null) {
+                pointer = right;
+                if (right == null) {
+                    inOrderList.add(root.val);
+                    break;
+                } else {
+                    right = right.right;
+                }
+            } else {
+                left = left.left;
+            }
+        }
+        return inOrderList;
+    }
+
+    public static int evalRPN(String[] tokens) {
+        if (tokens == null) return 0;
+        HashSet<String> operatorsSet = new HashSet<>();
+        operatorsSet.add("+");
+        operatorsSet.add("-");
+        operatorsSet.add("*");
+        operatorsSet.add("/");
+
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < tokens.length; i++) {
+            if (!operatorsSet.contains(tokens[i])) {
+                stack.push(Integer.valueOf(tokens[i]));
+            } else {
+                int firstNum = stack.pop();
+                int secondNum = stack.pop();
+               int updatedVal = 0;
+                switch (tokens[i]) {
+                    case "+" -> {
+                        updatedVal =  firstNum + secondNum;
+                        break;
+                    }
+                    case "-" -> {
+                        updatedVal = secondNum - firstNum;
+                        break;
+                    }
+                    case "*" -> {
+                        updatedVal = firstNum * secondNum;
+                        break;
+                    }
+                    case "/" -> {
+                        updatedVal = firstNum / secondNum;
+                        break;
+                    }
+                };
+                stack.push(updatedVal);
+            }
+        }
+        return stack.peek();
     }
 }
