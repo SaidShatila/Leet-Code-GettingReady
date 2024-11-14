@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSException;
+
 import java.util.*;
 
 public class Main {
@@ -65,7 +67,7 @@ public class Main {
         Utils.TreeNode root = new Utils.TreeNode(1);
         root.right = new Utils.TreeNode(2);
         root.right.left = new Utils.TreeNode(3);
-        String[] tempOperators = {"1","2","+","3","*","4","-"};
+        String[] tempOperators = {"1", "2", "+", "3", "*", "4", "-"};
 //        int[] nums1 = {1, 2, 2, 3, 3, 3};
 //        int k1 = 2;
 //        System.out.println(Arrays.toString(topKFrequent(nums1, k1))); // Replace 'yourMethodName' with your function name
@@ -1050,10 +1052,10 @@ public class Main {
             } else {
                 int firstNum = stack.pop();
                 int secondNum = stack.pop();
-               int updatedVal = 0;
+                int updatedVal = 0;
                 switch (tokens[i]) {
                     case "+" -> {
-                        updatedVal =  firstNum + secondNum;
+                        updatedVal = firstNum + secondNum;
                         break;
                     }
                     case "-" -> {
@@ -1068,10 +1070,30 @@ public class Main {
                         updatedVal = firstNum / secondNum;
                         break;
                     }
-                };
+                }
+                ;
                 stack.push(updatedVal);
             }
         }
         return stack.peek();
+    }
+
+    public static int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums == null || k <= 0) {
+            return new int[0];
+        }
+        int left;
+        Deque<Integer> deque = new ArrayDeque<>();
+        int[] result = new int[nums.length - k + 1];
+        int resultIndex = 0;
+        for (int right = 0; right < nums.length; right++) {
+            left = right - k + 1;
+            if (!deque.isEmpty() && deque.peekFirst() < left) {deque.removeFirst();}
+            while (!deque.isEmpty() && nums[deque.getLast()] <= nums[right]) {deque.removeLast();}
+            deque.addLast(right);
+            if (right >= k - 1 && !deque.isEmpty()) result[resultIndex++] = nums[deque.getFirst()];
+
+        }
+        return result;
     }
 }
