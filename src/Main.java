@@ -127,6 +127,7 @@ public class Main {
 //        merge(nums1, n, nums2, m);
         System.out.println(inorderTraversal(root));
         System.out.println(evalRPN(tempOperators));
+
     }
 
     public static boolean containsDuplicate(int[] nums) {

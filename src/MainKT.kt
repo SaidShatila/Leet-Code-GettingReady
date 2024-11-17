@@ -1,8 +1,12 @@
+import kotlin.math.pow
+
 fun main() {
 //    println(majorityElement(intArrayOf(3, 3, 4)))
 //    println(isPalindrome("A man, a plan, a canal: Panama"))
 //    println(isIsomorphic("badc", "baba"))
-    println(mergeAlternately("badc", "baba"))
+//    println(mergeAlternately("badc", "baba"))
+    println(reverse(120))
+
 }
 
 fun singleNumber(nums: IntArray): Int {
@@ -106,6 +110,22 @@ fun mergeAlternately(word1: String, word2: String): String {
     }
 
     return newString.toString()
+}
+
+
+fun reverse(x: Int): Int {
+    var input = x
+    var result = 0
+
+    while (input != 0) {
+        val digit = input % 10
+        input /= 10
+        if (result > Int.MAX_VALUE / 10 || (result == Int.MAX_VALUE / 10 && digit > 7)) return 0
+        if (result < Int.MIN_VALUE / 10 || (result == Int.MIN_VALUE / 10 && digit < -8)) return 0
+        result = result * 10 + digit
+    }
+
+    return result
 }
 
 
