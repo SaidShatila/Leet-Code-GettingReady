@@ -1089,8 +1089,12 @@ public class Main {
         int resultIndex = 0;
         for (int right = 0; right < nums.length; right++) {
             left = right - k + 1;
-            if (!deque.isEmpty() && deque.peekFirst() < left) {deque.removeFirst();}
-            while (!deque.isEmpty() && nums[deque.getLast()] <= nums[right]) {deque.removeLast();}
+            if (!deque.isEmpty() && deque.peekFirst() < left) {
+                deque.removeFirst();
+            }
+            while (!deque.isEmpty() && nums[deque.getLast()] <= nums[right]) {
+                deque.removeLast();
+            }
             deque.addLast(right);
             if (right >= k - 1 && !deque.isEmpty()) result[resultIndex++] = nums[deque.getFirst()];
 
@@ -1098,4 +1102,26 @@ public class Main {
         return result;
     }
 
+    public static List<String> generateParenthesis(int n) {
+        List<String> result = new ArrayList<>();
+        backTrack(result, new StringBuilder(), 0, 0, n);
+        return result;
+    }
+
+    public static void backTrack(List<String> answer, StringBuilder oneAnswer, int open, int close, int n) {
+        if (open == n && close == n) {
+            answer.add(oneAnswer.toString());
+            return;
+        }
+        if (open < n) {
+            oneAnswer.append('(');
+            backTrack(answer, oneAnswer, open + 1, close, n);
+            oneAnswer.deleteCharAt(oneAnswer.length() - 1);
+        }
+        if (close < open) {
+            oneAnswer.append(')');
+            backTrack(answer, oneAnswer, open, close + 1, n);
+            oneAnswer.deleteCharAt(oneAnswer.length() - 1);
+        }
+    }
 }

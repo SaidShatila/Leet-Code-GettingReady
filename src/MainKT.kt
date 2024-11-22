@@ -1,3 +1,4 @@
+import java.util.Stack
 import kotlin.math.pow
 
 fun main() {
@@ -5,7 +6,8 @@ fun main() {
 //    println(isPalindrome("A man, a plan, a canal: Panama"))
 //    println(isIsomorphic("badc", "baba"))
 //    println(mergeAlternately("badc", "baba"))
-    println(reverse(120))
+//    println(reverse(120))
+    println(infixToPostFix("a+b*(c^d-e)"))
 
 }
 
@@ -127,5 +129,42 @@ fun reverse(x: Int): Int {
 
     return result
 }
+
+
+fun infixToPostFix(s: String): String {
+    var i = 0
+    val stackOperator = Stack<Char>()
+    val ans = StringBuilder()
+    while (i < s.length - 1) {
+        when (val char = s[i]) {
+            in 'A'..'Z', in 'a'..'z', in '0'..'9' -> {
+                ans.append(char)
+            }
+            '(' -> stackOperator.push(char)
+            ')' -> {
+                while (stackOperator.isEmpty() && stackOperator.peek() != ')') {
+                    ans.append(stackOperator.peek())
+                    stackOperator.pop()
+                }
+                stackOperator.pop()
+            }
+            else -> {
+                while (stackOperator.isNotEmpty()&& char.operatorPriority() <= stackOperator.peek().operatorPriority()) {
+                    ans.append(stackOperator.peek())
+                    stackOperator.pop()
+                }
+                stackOperator.push(char)
+            }
+        }
+        i++
+    }
+
+    while (stackOperator.isNotEmpty()){
+        ans.append(stackOperator.pop())
+    }
+    return ans.toString()
+}
+
+
 
 
