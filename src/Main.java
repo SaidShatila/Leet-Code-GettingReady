@@ -14,6 +14,7 @@ public class Main {
         int[] heights = {1, 7, 2, 5, 4, 7, 3, 6};
         int[] height = {0, 2, 0, 3, 1, 0, 1, 3, 2, 1};
         int[] prices = {7, 1, 5, 3, 6, 4};
+        int[] dailyTempValues = {73, 74, 75, 71, 69, 72, 76, 73};
         int[] nums1 = {2, 0};
         int n = 1;
         int[] nums2 = {1};
@@ -125,8 +126,9 @@ public class Main {
 //        System.out.println(deleteDuplicates(headTwo));
 //        System.out.println(minWindow(s, t));
 //        merge(nums1, n, nums2, m);
-        System.out.println(inorderTraversal(root));
-        System.out.println(evalRPN(tempOperators));
+//        System.out.println(inorderTraversal(root));
+//        System.out.println(evalRPN(tempOperators));
+        System.out.println(Arrays.toString(dailyTemperatures(dailyTempValues)));
 
     }
 
@@ -1124,4 +1126,63 @@ public class Main {
             oneAnswer.deleteCharAt(oneAnswer.length() - 1);
         }
     }
+
+
+    public static int[] dailyTemperatures(int[] temperatures) {
+        if (temperatures.length == 0 || temperatures.length == 1) return null;
+        ArrayList<Integer> result = new ArrayList<>();
+        Stack<Integer> tempStack = new Stack<>();
+        int countDays = 0;
+        int right;
+        for (int i = 0; i <= temperatures.length - 1; i++) {
+            int value = temperatures[i];
+            right = i;
+            if (tempStack.isEmpty()) {
+                tempStack.push(value);
+                while (tempStack.peek() >= temperatures[right] && right < temperatures.length - 1) {
+                    right++;
+                    countDays++;
+                }
+                if (tempStack.peek() < temperatures[right]) {
+                    result.add(countDays);
+                    countDays = 0;
+                    tempStack.pop();
+                } else {
+                    result.add(0);
+                    countDays = 0;
+                    if (!tempStack.isEmpty()) tempStack.pop();
+
+                }
+            }
+        }
+        int[] finalR = new int[result.size()];
+
+        for (int i = 0; i < result.size(); i++) {
+            finalR[i] = result.get(i);
+        }
+        return finalR;
+
+        /**
+         *
+         * OPTIMIZED
+         int[] result = new int[temperatures.length];
+        Deque<Integer> stack = new ArrayDeque<>();
+
+        for (int i = 0; i < temperatures.length; i++) {
+            while (!stack.isEmpty() && temperatures[i] > temperatures[stack.peek()]) {
+                int index = stack.pop();
+                result[index] = i - index;
+            }
+            stack.push(i);
+        }
+
+        return result;
+
+        *
+         * **/
+    }
+
+//    public int carFleet(int target, int[] position, int[] speed) {
+//
+//    }
 }

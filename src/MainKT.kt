@@ -7,8 +7,8 @@ fun main() {
 //    println(isIsomorphic("badc", "baba"))
 //    println(mergeAlternately("badc", "baba"))
 //    println(reverse(120))
-    println(infixToPostFix("a+b*(c^d-e)"))
-
+//    println(infixToPostFix("a+b*(c^d-e)"))
+    println(dayOfYear("2019-01-09"))
 }
 
 fun singleNumber(nums: IntArray): Int {
@@ -140,6 +140,7 @@ fun infixToPostFix(s: String): String {
             in 'A'..'Z', in 'a'..'z', in '0'..'9' -> {
                 ans.append(char)
             }
+
             '(' -> stackOperator.push(char)
             ')' -> {
                 while (stackOperator.isEmpty() && stackOperator.peek() != ')') {
@@ -148,8 +149,11 @@ fun infixToPostFix(s: String): String {
                 }
                 stackOperator.pop()
             }
+
             else -> {
-                while (stackOperator.isNotEmpty()&& char.operatorPriority() <= stackOperator.peek().operatorPriority()) {
+                while (stackOperator.isNotEmpty() && char.operatorPriority() <= stackOperator.peek()
+                        .operatorPriority()
+                ) {
                     ans.append(stackOperator.peek())
                     stackOperator.pop()
                 }
@@ -159,12 +163,45 @@ fun infixToPostFix(s: String): String {
         i++
     }
 
-    while (stackOperator.isNotEmpty()){
+    while (stackOperator.isNotEmpty()) {
         ans.append(stackOperator.pop())
     }
     return ans.toString()
 }
 
 
+fun dayOfYear(date: String): Int {
+    val setOfDaysInMonth = listOf(
+        31,
+        date.checkIfLeapYear(),
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31
+    )
+    var dayOfTheYear = 0;
+
+    val month = date.substring(5, 7).toInt()
+    val day = date.substring(8, 10).toInt()
+
+    for (i in 0 until month-1) {
+        dayOfTheYear += setOfDaysInMonth[i]
+    }
+
+
+    return  dayOfTheYear + day;
+}
+
+
+fun String.checkIfLeapYear(): Int {
+    val year = this.substring(0, 4).toInt()
+    return if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) 29 else 28
+}
 
 
