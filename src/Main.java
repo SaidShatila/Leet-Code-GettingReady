@@ -128,7 +128,8 @@ public class Main {
 //        merge(nums1, n, nums2, m);
 //        System.out.println(inorderTraversal(root));
 //        System.out.println(evalRPN(tempOperators));
-        System.out.println(Arrays.toString(dailyTemperatures(dailyTempValues)));
+//        System.out.println(Arrays.toString(dailyTemperatures(dailyTempValues)));
+//        System.out.println(Arrays.toString(carFleet()));
 
     }
 
@@ -1166,23 +1167,37 @@ public class Main {
          *
          * OPTIMIZED
          int[] result = new int[temperatures.length];
-        Deque<Integer> stack = new ArrayDeque<>();
+         Deque<Integer> stack = new ArrayDeque<>();
 
-        for (int i = 0; i < temperatures.length; i++) {
-            while (!stack.isEmpty() && temperatures[i] > temperatures[stack.peek()]) {
-                int index = stack.pop();
-                result[index] = i - index;
-            }
-            stack.push(i);
-        }
+         for (int i = 0; i < temperatures.length; i++) {
+         while (!stack.isEmpty() && temperatures[i] > temperatures[stack.peek()]) {
+         int index = stack.pop();
+         result[index] = i - index;
+         }
+         stack.push(i);
+         }
 
-        return result;
-
-        *
+         return result;
+         *
          * **/
     }
 
-//    public int carFleet(int target, int[] position, int[] speed) {
-//
-//    }
+    public static int carFleet(int target, int[] position, int[] speed) {
+        int n = position.length;
+        if (n == 0) return 0;
+        int[][] pair = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            pair[i][0] = position[i];
+            pair[i][1] = speed[i];
+        }
+        Arrays.sort(pair, (a, b) -> Integer.compare(b[0], a[0]));
+        Stack<Double> stack = new Stack<>();
+        for (int[] p : pair) {
+            stack.push((double) (target - p[0]) / p[1]);
+            if (stack.size() >= 2 && stack.peek() <= stack.get(stack.size() - 2)) {
+                stack.pop();
+            }
+        }
+        return stack.size();
+    }
 }
