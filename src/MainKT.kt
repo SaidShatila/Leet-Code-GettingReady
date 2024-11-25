@@ -1,14 +1,16 @@
 import java.util.Stack
-import kotlin.math.pow
 
 fun main() {
+    val l1 = ListNode(2, ListNode(4, ListNode(3, null)))
+    val l2 = ListNode(5, ListNode(6, ListNode(4, null)))
 //    println(majorityElement(intArrayOf(3, 3, 4)))
 //    println(isPalindrome("A man, a plan, a canal: Panama"))
 //    println(isIsomorphic("badc", "baba"))
 //    println(mergeAlternately("badc", "baba"))
 //    println(reverse(120))
 //    println(infixToPostFix("a+b*(c^d-e)"))
-    println(dayOfYear("2019-01-09"))
+//    println(dayOfYear("2019-01-09"))
+    println(printList(addTwoNumbers(l1, l2)))
 }
 
 fun singleNumber(nums: IntArray): Int {
@@ -190,15 +192,49 @@ fun dayOfYear(date: String): Int {
     val month = date.substring(5, 7).toInt()
     val day = date.substring(8, 10).toInt()
 
-    for (i in 0 until month-1) {
+    for (i in 0 until month - 1) {
         dayOfTheYear += setOfDaysInMonth[i]
     }
 
 
-    return  dayOfTheYear + day;
+    return dayOfTheYear + day;
 }
 
+fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode? {
+    if (l1 == null && l2 == null) return null
+    if (l1 == null && l2 != null) return l2
+    if (l1 != null && l2 == null) return l1
+    if ((l1?.next == null && l1?.`val` == 0) && (l2?.next == null && l2?.`val` == 0)) return ListNode(0)
+    val dummy = ListNode(0)
+    var addedList: ListNode? = dummy
+        var carryOn = 0
+        var nextOne = l1
+        var nextTwo = l2
+        while (nextOne != null || nextTwo != null || carryOn != 0) {
+            val sum = (nextOne?.`val` ?: 0) + (nextTwo?.`val`?:0) + carryOn
+                if (sum > 9) {
+                    carryOn = sum - 10
+                    addedList?.next = ListNode(carryOn)
+                    carryOn = 1
+                } else {
+                    addedList?.next= ListNode(sum)
+                    carryOn = 0
+                }
+                addedList = addedList?.next
+                nextOne = nextOne?.next
+                nextTwo = nextTwo?.next
+        }
+        return dummy.next
+}
 
+fun printList(node: ListNode?) {
+    var current = node
+    while (current != null) {
+        print("${current.`val`} -> ")
+        current = current.next
+    }
+    println("null")
+}
 fun String.checkIfLeapYear(): Int {
     val year = this.substring(0, 4).toInt()
     return if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) 29 else 28

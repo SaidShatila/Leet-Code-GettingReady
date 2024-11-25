@@ -6,3 +6,12 @@ fun Char.operatorPriority(): Int {
         else -> 0
     }
 }
+
+
+
+class ListNode(var `val`: Int) {
+    var next: ListNode? = null
+    constructor(`val`: Int, next: ListNode?) : this(`val`) {
+        this.next = next
+    }
+}
