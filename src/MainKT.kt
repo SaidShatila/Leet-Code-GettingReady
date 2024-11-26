@@ -10,7 +10,8 @@ fun main() {
 //    println(reverse(120))
 //    println(infixToPostFix("a+b*(c^d-e)"))
 //    println(dayOfYear("2019-01-09"))
-    println(printList(addTwoNumbers(l1, l2)))
+//    println(printList(addTwoNumbers(l1, l2)))
+    println(convert("PAYPALISHIRING", 3))
 }
 
 fun singleNumber(nums: IntArray): Int {
@@ -207,24 +208,24 @@ fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode? {
     if ((l1?.next == null && l1?.`val` == 0) && (l2?.next == null && l2?.`val` == 0)) return ListNode(0)
     val dummy = ListNode(0)
     var addedList: ListNode? = dummy
-        var carryOn = 0
-        var nextOne = l1
-        var nextTwo = l2
-        while (nextOne != null || nextTwo != null || carryOn != 0) {
-            val sum = (nextOne?.`val` ?: 0) + (nextTwo?.`val`?:0) + carryOn
-                if (sum > 9) {
-                    carryOn = sum - 10
-                    addedList?.next = ListNode(carryOn)
-                    carryOn = 1
-                } else {
-                    addedList?.next= ListNode(sum)
-                    carryOn = 0
-                }
-                addedList = addedList?.next
-                nextOne = nextOne?.next
-                nextTwo = nextTwo?.next
+    var carryOn = 0
+    var nextOne = l1
+    var nextTwo = l2
+    while (nextOne != null || nextTwo != null || carryOn != 0) {
+        val sum = (nextOne?.`val` ?: 0) + (nextTwo?.`val` ?: 0) + carryOn
+        if (sum > 9) {
+            carryOn = sum - 10
+            addedList?.next = ListNode(carryOn)
+            carryOn = 1
+        } else {
+            addedList?.next = ListNode(sum)
+            carryOn = 0
         }
-        return dummy.next
+        addedList = addedList?.next
+        nextOne = nextOne?.next
+        nextTwo = nextTwo?.next
+    }
+    return dummy.next
 }
 
 fun printList(node: ListNode?) {
@@ -235,9 +236,30 @@ fun printList(node: ListNode?) {
     }
     println("null")
 }
+
 fun String.checkIfLeapYear(): Int {
     val year = this.substring(0, 4).toInt()
     return if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) 29 else 28
 }
 
+
+fun convert(s: String, numRows: Int): String {
+    if (numRows == 1 || numRows == 0 || s.length == 1) return s
+    val rows = MutableList(numRows) { StringBuilder() }
+    var currentRow = 0
+    var direction = 1
+    s.forEach { char ->
+        rows[currentRow].append(char)
+        if (currentRow == numRows - 1) {
+            direction = -1
+        } else if (currentRow == 0) direction = 1
+
+        currentRow += direction
+    }
+    val result = StringBuilder()
+    for (row in rows) {
+        result.append(row)
+    }
+    return result.toString()
+}
 
