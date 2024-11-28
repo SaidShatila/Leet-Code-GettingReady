@@ -11,7 +11,8 @@ fun main() {
 //    println(infixToPostFix("a+b*(c^d-e)"))
 //    println(dayOfYear("2019-01-09"))
 //    println(printList(addTwoNumbers(l1, l2)))
-    println(convert("PAYPALISHIRING", 3))
+//    println(convert("PAYPALISHIRING", 3))
+    println(myAtoi("0-1"))
 }
 
 fun singleNumber(nums: IntArray): Int {
@@ -261,5 +262,30 @@ fun convert(s: String, numRows: Int): String {
         result.append(row)
     }
     return result.toString()
+}
+
+fun myAtoi(s: String): Int {
+    if (s.isEmpty()) return 0
+    var index = 0
+    val n = s.length
+    while (index < n && s[index] == ' ') {
+        index++
+    }
+    if (index == n) return 0
+    var sign = 1
+    if (s[index] == '+' || s[index] == '-') {
+        if (s[index] == '-') sign = -1
+        index++
+    }
+    var result = 0
+    while (index < n) {
+        val currentChar = s[index]
+        if (currentChar < '0' || currentChar > '9') break
+        val digit = currentChar - '0'
+        if (result > (Int.MAX_VALUE - digit) / 10) return if (sign == 1) Int.MAX_VALUE else Int.MIN_VALUE
+        result = result * 10 + digit
+        index++
+    }
+    return result * sign
 }
 
