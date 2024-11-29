@@ -130,6 +130,7 @@ public class Main {
 //        System.out.println(evalRPN(tempOperators));
 //        System.out.println(Arrays.toString(dailyTemperatures(dailyTempValues)));
 //        System.out.println(Arrays.toString(carFleet()));
+        System.out.println(search(new int[]{-1,0,5},-1));
 
     }
 
@@ -1200,4 +1201,41 @@ public class Main {
         }
         return stack.size();
     }
+
+    public static int largestRectangleArea(int[] heights) {
+        if (heights == null || heights.length == 0) return 0;
+        int maxArea = 0;
+        Stack<Integer> maxAreaStack = new Stack<>();
+        for (int i = 0; i <= heights.length; i++) {
+            int height = (i == heights.length) ? 0 : heights[i];
+            while (!maxAreaStack.isEmpty() && height < heights[maxAreaStack.peek()]) {
+                int poppedValue = maxAreaStack.pop();
+                int poppedValueHeight = heights[poppedValue];
+                int width;
+                if (!maxAreaStack.isEmpty()) {
+                    width = i - maxAreaStack.peek() - 1;
+                } else {
+                    width = i;
+                }
+                int area = poppedValueHeight * width;
+                maxArea = Math.max(maxArea, area);
+            }
+            maxAreaStack.push(i);
+        }
+        return maxArea;
+    }
+
+    public static int search(int[] nums, int target) {
+        if (nums == null || nums.length == 0) return -1;
+        int left = 0;
+        int right = nums.length -1;
+        while (left <=right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) return mid;
+            if (nums[mid] < target) left = mid + 1;
+            else right = mid - 1;
+        }
+        return -1;
+    }
+
 }
