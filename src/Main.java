@@ -130,7 +130,7 @@ public class Main {
 //        System.out.println(evalRPN(tempOperators));
 //        System.out.println(Arrays.toString(dailyTemperatures(dailyTempValues)));
 //        System.out.println(Arrays.toString(carFleet()));
-        System.out.println(search(new int[]{-1,0,5},-1));
+        System.out.println(search(new int[]{-1, 0, 5}, -1));
 
     }
 
@@ -1228,8 +1228,8 @@ public class Main {
     public static int search(int[] nums, int target) {
         if (nums == null || nums.length == 0) return -1;
         int left = 0;
-        int right = nums.length -1;
-        while (left <=right) {
+        int right = nums.length - 1;
+        while (left <= right) {
             int mid = left + (right - left) / 2;
             if (nums[mid] == target) return mid;
             if (nums[mid] < target) left = mid + 1;
@@ -1238,4 +1238,18 @@ public class Main {
         return -1;
     }
 
+    public int[] searchRange(int[] nums, int target) {
+        if (nums.length == 0 || target == -1) return new int[]{-1, -1};
+        if (nums.length ==1 && target == nums[0]) return new int[]{0, 0};
+        int left = 0;
+        int right = nums.length - 1;
+        while (left <= right) {
+            int x = nums[left];
+            int y = nums[right];
+            if (x == target && y == target) return new int[]{left, right};
+            if (x != target) left++;
+            if (y != target) right--;
+        }
+        return new int[]{-1, -1};
+    }
 }
