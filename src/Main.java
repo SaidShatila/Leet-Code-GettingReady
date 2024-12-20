@@ -130,7 +130,8 @@ public class Main {
 //        System.out.println(evalRPN(tempOperators));
 //        System.out.println(Arrays.toString(dailyTemperatures(dailyTempValues)));
 //        System.out.println(Arrays.toString(carFleet()));
-        System.out.println(search(new int[]{-1, 0, 5}, -1));
+//        System.out.println(search(new int[]{-1, 0, 5}, -1));
+        System.out.println(countAndSay(5));
 
     }
 
@@ -1240,7 +1241,7 @@ public class Main {
 
     public int[] searchRange(int[] nums, int target) {
         if (nums.length == 0 || target == -1) return new int[]{-1, -1};
-        if (nums.length ==1 && target == nums[0]) return new int[]{0, 0};
+        if (nums.length == 1 && target == nums[0]) return new int[]{0, 0};
         int left = 0;
         int right = nums.length - 1;
         while (left <= right) {
@@ -1251,5 +1252,27 @@ public class Main {
             if (y != target) right--;
         }
         return new int[]{-1, -1};
+    }
+
+    public static String countAndSay(int n) {
+        if (n == 1) return "1";
+        String previousTerm = countAndSay(n - 1);
+        StringBuilder currentTerm = new StringBuilder();
+
+        int count = 1;
+        char currentChar = previousTerm.charAt(0);
+
+        for (int i = 1; i < previousTerm.length(); i++) {
+            if (previousTerm.charAt(i) == currentChar) {
+                count++;
+            } else {
+                currentTerm.append(count).append(currentChar);
+                count = 1;
+                currentChar = previousTerm.charAt(i);
+            }
+        }
+
+        currentTerm.append(count).append(currentChar);
+        return currentTerm.toString();
     }
 }
