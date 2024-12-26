@@ -19,6 +19,7 @@ public class Main {
         int[][] matrix = {{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}};
         int[] nums1 = {2, 0};
         int[] bananas = {25, 10, 23, 4};
+        int[] rotatedSorted = {4,5,6,7};
         int n = 1;
         int[] nums2 = {1};
         int m = 1;
@@ -142,7 +143,8 @@ public class Main {
 //        System.out.println(upperBound(sorted, 2, sorted.length));
 //        System.out.println(Arrays.toString(firstandlastoccurence(numsDuplicateSorted, 5)));
 //        System.out.println(Arrays.toString(firstAndLastOccurence(numsDuplicateSorted, 5)));
-        System.out.println(minEatingSpeed(bananas, 4));
+//        System.out.println(minEatingSpeed(bananas, 4));
+        System.out.println(findMin(rotatedSorted));
 
     }
 
@@ -1474,5 +1476,64 @@ public class Main {
             } else minimum = mid + 1;
         }
         return minimum;
+    }
+
+    public static int search(ArrayList<Integer> arr, int n, int k) {
+        int low = 0, high = n - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (arr.get(mid) == k)
+                return mid;
+
+            if (arr.get(low) <= arr.get(mid)) {
+                if (arr.get(low) <= k && k <= arr.get(mid)) high = mid - 1;
+                else low = mid + 1;
+            } else {
+                if (arr.get(mid) <= k && k <= arr.get(high)) low = mid + 1;
+                else high = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+    public static boolean searchInARotatedSortedArrayII(int[] arr, int k) {
+        int n = arr.length;
+        int low = 0, high = n - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (arr[mid] == k) return true;
+            if (arr[low] == arr[mid] && arr[mid] == arr[high]) {
+                low = low + 1;
+                high = high - 1;
+                continue;
+            }
+            if (arr[low] <= arr[mid]) {
+                if (arr[low] <= k && k <= arr[mid]) high = mid - 1;
+                else low = mid + 1;
+            } else {
+                if (arr[mid] <= k && k <= arr[high]) low = mid + 1;
+                else high = mid - 1;
+            }
+        }
+        return false;
+    }
+
+    public static int findMin(int[] nums) {
+        if (nums == null) return -1;
+        int low = 0;
+        int high = nums.length - 1;
+        int ans = Integer.MAX_VALUE;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (nums[low] <= nums[mid]) {
+                ans = Math.min(ans, nums[low]);
+                low = mid + 1;
+            } else {
+                ans = Math.min(ans, nums[mid]);
+                high = mid - 1;
+            }
+        }
+
+        return ans;
     }
 }
