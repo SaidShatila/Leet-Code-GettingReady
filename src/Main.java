@@ -1,4 +1,4 @@
-import org.w3c.dom.ls.LSException;
+import kotlin.Pair;
 
 import java.util.*;
 
@@ -15,7 +15,10 @@ public class Main {
         int[] height = {0, 2, 0, 3, 1, 0, 1, 3, 2, 1};
         int[] prices = {7, 1, 5, 3, 6, 4};
         int[] dailyTempValues = {73, 74, 75, 71, 69, 72, 76, 73};
+        int[] sorted = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int[][] matrix = {{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}};
         int[] nums1 = {2, 0};
+        int[] bananas = {25, 10, 23, 4};
         int n = 1;
         int[] nums2 = {1};
         int m = 1;
@@ -131,7 +134,15 @@ public class Main {
 //        System.out.println(Arrays.toString(dailyTemperatures(dailyTempValues)));
 //        System.out.println(Arrays.toString(carFleet()));
 //        System.out.println(search(new int[]{-1, 0, 5}, -1));
-        System.out.println(countAndSay(5));
+//        System.out.println(countAndSay(5));
+//        System.out.println(findMaximumTask(new int[]{1, 2, 2, 1, 3, 1, 3}, 2));
+//        System.out.println(recursiveBinarySearch(sorted, 10, 0, sorted.length - 1));
+//        System.out.println(searchMatrix(matrix, 2));
+//        System.out.println(lowerBound(sorted, 6, sorted.length));
+//        System.out.println(upperBound(sorted, 2, sorted.length));
+//        System.out.println(Arrays.toString(firstandlastoccurence(numsDuplicateSorted, 5)));
+//        System.out.println(Arrays.toString(firstAndLastOccurence(numsDuplicateSorted, 5)));
+        System.out.println(minEatingSpeed(bananas, 4));
 
     }
 
@@ -825,8 +836,7 @@ public class Main {
         int m = haystack.length();
         int n = needle.length();
         for (int i = 0; i <= m - n; i++) {
-            if (haystack.substring(i, i + n).equals(needle))
-                return i;
+            if (haystack.substring(i, i + n).equals(needle)) return i;
         }
         return -1;
     }
@@ -1226,7 +1236,7 @@ public class Main {
         return maxArea;
     }
 
-    public static int search(int[] nums, int target) {
+    public static int binarySearch(int[] nums, int target) {
         if (nums == null || nums.length == 0) return -1;
         int left = 0;
         int right = nums.length - 1;
@@ -1237,6 +1247,15 @@ public class Main {
             else right = mid - 1;
         }
         return -1;
+    }
+
+
+    public static int recursiveBinarySearch(int[] nums, int target, int low, int high) {
+        if (nums == null || nums.length == 0 || low > high) return -1;
+        int mid = (low + high) / 2;
+        if (nums[mid] == target) return mid;
+        if (nums[mid] > target) return recursiveBinarySearch(nums, target, low, mid - 1);
+        return recursiveBinarySearch(nums, target, mid + 1, high);
     }
 
     public int[] searchRange(int[] nums, int target) {
@@ -1274,5 +1293,188 @@ public class Main {
 
         currentTerm.append(count).append(currentChar);
         return currentTerm.toString();
+    }
+
+//    public static int findMaximumTask(int[] task, int m) {
+//      //NEEDS TO BE SOLVED
+//    }
+
+    public static boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return false;
+        int m = matrix.length;    // Number of rows
+        int n = matrix[0].length;
+        int low = 0;
+        int high = m * n - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int row = mid / n;
+            int col = mid % n;
+            if (matrix[row][col] == target) {
+                return true;
+            } else if (matrix[row][col] < target) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return false;
+    }
+
+    public static int lowerBound(int[] arr, int target, int l) {
+        if (arr == null || l == 0) return l;
+        int answer = l;
+        int low = 0;
+        int high = l - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (arr[mid] >= target) {
+                answer = mid;
+                high = mid - 1;
+            } else low = mid + 1;
+        }
+        return answer;
+    }
+
+
+    public static int upperBound(int[] arr, int target, int l) {
+        if (arr == null || l == 0) return l;
+        int answer = l;
+        int low = 0;
+        int high = l - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (arr[mid] > target) {
+                answer = mid;
+                high = mid - 1;
+            } else low = mid + 1;
+        }
+        return answer;
+    }
+
+    public static int searchInsertedPosition(int[] arr, int target, int l) {
+        if (arr == null || l == 0) return l;
+        int answer = 0;
+        int low = 0;
+        int high = l - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (arr[mid] >= target) {
+                answer = mid;
+                high = mid - 1;
+            } else low = mid + 1;
+        }
+        return answer;
+    }
+
+    public static int floorAndCeil(int[] arr, int target, int l) {
+        if (arr == null || l == 0) return -1;
+        int answer = -1;
+        int low = 0;
+        int high = l - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (arr[mid] <= mid) {
+                answer = arr[mid];
+                low = mid + 1;
+            } else high = mid - 1;
+        }
+        return answer;
+    }
+
+    public static int[] firstandlastoccurence(int[] arr, int target) {
+        if (arr == null) return new int[]{};
+        int[] answer = {-1, -1};
+        int low = 0;
+        int high = arr.length - 1;
+
+        while (low <= high) {
+            if (answer[0] != -1 && answer[1] != -1) return answer;
+            if (arr[low] == target) answer[0] = low;
+            if (arr[high] == target) answer[1] = high;
+            if (answer[0] == -1) low++;
+            if (answer[1] == -1) high--;
+        }
+        return answer;
+    }
+
+    //using lower bound and upper bound recursivley
+    public static int[] firstAndLastOccurence(int[] arr, int target) {
+        int lb = lowerBound(arr, target, arr.length);
+        if (lb == arr.length || arr[lb] != target) return new int[]{-1, -1};
+        return new int[]{lb, upperBound(arr, target, arr.length) - 1};
+    }
+
+    //another way to solve last nad first occurence recursivley
+
+    public static int lastOccurence(int[] arr, int target, int size) {
+        if (arr == null) return -1;
+        int low = 0;
+        int high = size - 1;
+        int last = -1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            if (arr[mid] == target) {
+                last = mid;
+                low = mid + 1;
+            } else if (arr[mid] < target) low = mid + 1;
+            else high = mid - 1;
+
+        }
+        return last;
+    }
+
+
+    public static int firstOccurence(int[] arr, int target, int size) {
+        if (arr == null) return -1;
+        int low = 0;
+        int high = size - 1;
+        int first = -1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            if (arr[mid] == target) {
+                first = mid;
+                high = mid - 1;
+            } else if (arr[mid] < target) low = mid + 1;
+            else high = mid - 1;
+
+        }
+        return first;
+    }
+
+    public static int[] firstandLastOccurence(int[] arr, int target, int size) {
+        int firstOcc = firstOccurence(arr, target, size);
+        if (firstOcc == -1) return new int[]{-1, -1};
+        int lastOcc = lastOccurence(arr, target, size);
+        return new int[]{firstOcc, lastOcc};
+    }
+
+    public static int countOccurence(int[] arr, int target, int size) {
+        int[] ans = firstandLastOccurence(arr, target, size);
+        if (ans[0] == -1) return 0;
+        return ans[1] - ans[0] + 1;
+    }
+
+    public static int minEatingSpeed(int[] piles, int h) {
+        if (piles == null || h == 0) return -1;
+        if (piles.length == 1) return piles[0];
+        int maxValue = Arrays.stream(piles).max().getAsInt();
+        int minimum = 1;
+        while (minimum < maxValue) {
+            int mid = minimum + (maxValue - minimum) / 2;
+            int hours = 0;
+            for (int pile : piles) {
+                hours += (int) Math.ceil((double) pile / mid);
+            }
+            if (hours <= h) {
+                maxValue = mid;
+            } else minimum = mid + 1;
+        }
+        return minimum;
     }
 }
