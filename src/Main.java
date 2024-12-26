@@ -1461,15 +1461,13 @@ public class Main {
     }
 
     public static int minEatingSpeed(int[] piles, int h) {
-        if (piles == null || h == 0) return -1;
-        if (piles.length == 1) return piles[0];
         int maxValue = Arrays.stream(piles).max().getAsInt();
         int minimum = 1;
         while (minimum < maxValue) {
             int mid = minimum + (maxValue - minimum) / 2;
-            int hours = 0;
+            long hours = 0;
             for (int pile : piles) {
-                hours += (int) Math.ceil((double) pile / mid);
+                hours += Math.ceil((double) pile / mid);
             }
             if (hours <= h) {
                 maxValue = mid;
