@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         int[] nums = {1, 2, 3, 6, 5, 3};
-        int[] numsDuplicateSorted = {1, 2, 3, 4, 5, 5, 5, 6, 7, 8, 8};
+        int[] numsDuplicateSorted = {1, 1, 2, 2, 3, 3, 4, 5, 5, 5, 6, 6, 7, 8, 8};
         int[] numsSorted = {2, 3, 4};
         int[] numsKExcept = {1, 2, 4, 6};
         int[] threeSumsArray = {-1, 0, 1, 2, -1, -4};
@@ -19,7 +19,10 @@ public class Main {
         int[][] matrix = {{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}};
         int[] nums1 = {2, 0};
         int[] bananas = {25, 10, 23, 4};
-        int[] rotatedSorted = {4,5,6,7};
+        int[] rotatedSorted = {4, 5, 6, 7};
+        int[] rotatedSortedTwo = {5, 1, 2, 3, 4};
+        int[] rotatedSortedThree = {3, 4, 5, 1, 2};
+        int[] peakElementArray = {3,4,3,2,1};
         int n = 1;
         int[] nums2 = {1};
         int m = 1;
@@ -144,7 +147,11 @@ public class Main {
 //        System.out.println(Arrays.toString(firstandlastoccurence(numsDuplicateSorted, 5)));
 //        System.out.println(Arrays.toString(firstAndLastOccurence(numsDuplicateSorted, 5)));
 //        System.out.println(minEatingSpeed(bananas, 4));
-        System.out.println(findMin(rotatedSorted));
+//        System.out.println(findMin(rotatedSorted));
+//        System.out.println(search(rotatedSortedTwo, 1));
+//        System.out.println(findHowMuchArrayBeenRotated(rotatedSortedThree));
+//        System.out.println(singleNonDuplicate(numsDuplicateSorted));
+        System.out.println(findPeakElement(peakElementArray));
 
     }
 
@@ -1535,5 +1542,95 @@ public class Main {
         }
 
         return ans;
+    }
+
+    public static int findHowMuchArrayBeenRotated(int[] nums) {
+        if (nums == null) return -1;
+        int low = 0;
+        int high = nums.length - 1;
+        int count = Integer.MAX_VALUE;
+        int index = 0;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (nums[low] <= nums[mid]) {
+                int previousCount = count;
+                count = Math.min(count, nums[low]);
+                if (previousCount != count) index = low;
+                low = mid + 1;
+            } else {
+                int previousCount = count;
+                count = Math.min(count, nums[mid]);
+                if (previousCount != count) index = mid;
+                high = mid - 1;
+            }
+        }
+
+        return index - 1;
+    }
+
+
+    public static int search(int[] nums, int target) {
+        int n = nums.length;
+        int low = 0, high = n - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (nums[mid] == target) return mid;
+            if (nums[low] == target) return low;
+            if (nums[high] == target) return high;
+            if (nums[mid] >= nums[low]) {
+                if (nums[mid] >= target && target >= nums[low]) {
+                    high = mid - 1;
+                } else low = mid + 1;
+            } else {
+                if (nums[mid] <= target && target <= nums[high]) {
+                    low = mid + 1;
+                } else high = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+    public static int singleNonDuplicate(int[] nums) {
+        if (nums == null) return -1;
+        if (nums.length == 1) return nums[0];
+        if (nums[0] != nums[1]) return nums[0];
+        if (nums[nums.length - 1] != nums[nums.length - 2]) return nums[nums.length - 1];
+        int low = 1;
+        int high = nums.length - 2;
+        int answer = -1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (nums[mid] != nums[mid - 1] && nums[mid] != nums[mid + 1]) return nums[mid];
+            if ((mid % 2 == 1 && nums[mid - 1] == nums[mid]) || mid % 2 == 0 && nums[mid] == nums[mid + 1]) {
+                low = mid + 1;
+            } else high = mid - 1;
+        }
+        return answer;
+    }
+
+    public static int findPeakElement(int[] nums) {
+        if (nums == null) return 0;
+        if (nums.length == 1) return 0;
+        if (nums[0] > nums[1]) return 0;
+        if (nums[nums.length - 1] > nums[nums.length - 2]) return nums.length - 1;
+        if (nums.length == 2) if (nums[0] > nums[1]) return 0; else return 1;
+        int low = 1;
+        int high = nums.length - 2;
+        int answer = -1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (nums[mid - 1] < nums[mid] && nums[mid] > nums[mid + 1]) {
+                if (nums[mid] > answer) {
+                    answer = nums[mid];
+                    return mid;
+                }
+            }
+            if (nums[mid] > nums[mid + 1]) {
+                high = mid - 1;
+            } else low = mid + 1;
+
+        }
+        return 0;
     }
 }
