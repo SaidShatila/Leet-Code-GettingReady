@@ -1,4 +1,5 @@
 import java.util.Stack
+import kotlin.math.*
 
 fun main() {
     val l1 = ListNode(2, ListNode(4, ListNode(3, null)))
@@ -12,7 +13,9 @@ fun main() {
 //    println(dayOfYear("2019-01-09"))
 //    println(printList(addTwoNumbers(l1, l2)))
 //    println(convert("PAYPALISHIRING", 3))
-    println(myAtoi("0-1"))
+//    println(myAtoi("0-1"))
+//    println(smallestDivisor(intArrayOf(19), 5))
+    println(shipWithinDays(intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 5))
 }
 
 fun singleNumber(nums: IntArray): Int {
@@ -290,5 +293,55 @@ fun myAtoi(s: String): Int {
 }
 
 
+fun smallestDivisor(nums: IntArray, threshold: Int): Int {
+    if (threshold == 0 || nums.isEmpty()) return -1;
+    var low = 1
+    var high = nums.max()
+    var answer = high;
+    while (low <= high) {
+        var mid = (low + high) / 2
+        val summation = nums.sumOf {
+            println("$it = ${(it.ceilDiv(mid))}")
+            it.ceilDiv(mid)
+        }
+        if (summation <= threshold) {
+            answer = mid;
+        } else {
+            low = mid + 1;
+        }
+        high = mid - 1;
+    }
+    return answer;
+}
 
+fun shipWithinDays(weights: IntArray, days: Int): Int {
+    if (days == 0 || weights.isEmpty()) return -1;
+    val summation = weights.sum()
+    var low = weights.max()
+    var high = summation
+    while (low <= high) {
+        val mid = (low + high) / 2
+        if (minCap(weights,mid) <= days) {
+            high = mid - 1
+
+        } else low = mid + 1
+    }
+    return low
+}
+
+fun minCap(weights: IntArray, cap: Int): Int {
+    var days = 1
+    var load = 0
+    weights.forEach {
+        if (load + it > cap) {
+            days += 1
+            load = it
+        } else load += it
+    }
+    return days;
+}
+
+fun Int.ceilDiv(other: Int): Int {
+    return this.floorDiv(other) + this.rem(other).sign.absoluteValue
+}
 
