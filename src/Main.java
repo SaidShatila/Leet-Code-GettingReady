@@ -22,7 +22,10 @@ public class Main {
         int[] rotatedSorted = {4, 5, 6, 7};
         int[] rotatedSortedTwo = {5, 1, 2, 3, 4};
         int[] rotatedSortedThree = {3, 4, 5, 1, 2};
-        int[] peakElementArray = {3,4,3,2,1};
+        int[] peakElementArray = {3, 4, 3, 2, 1};
+        int[] findDuplicate = {4, 3, 1, 4, 2};
+        int[] nums1Median = {2,2,4,4};
+        int[] nums2Median = {2,2,2,4,4};
         int n = 1;
         int[] nums2 = {1};
         int m = 1;
@@ -151,7 +154,10 @@ public class Main {
 //        System.out.println(search(rotatedSortedTwo, 1));
 //        System.out.println(findHowMuchArrayBeenRotated(rotatedSortedThree));
 //        System.out.println(singleNonDuplicate(numsDuplicateSorted));
-        System.out.println(findPeakElement(peakElementArray));
+//        System.out.println(findPeakElement(peakElementArray));
+//        System.out.println(findSqrt(36));
+//        System.out.println(findDuplicate(findDuplicate));
+        System.out.println(findMedianSortedArrays(nums1Median,nums2Median));
 
     }
 
@@ -1613,7 +1619,8 @@ public class Main {
         if (nums.length == 1) return 0;
         if (nums[0] > nums[1]) return 0;
         if (nums[nums.length - 1] > nums[nums.length - 2]) return nums.length - 1;
-        if (nums.length == 2) if (nums[0] > nums[1]) return 0; else return 1;
+        if (nums.length == 2) if (nums[0] > nums[1]) return 0;
+        else return 1;
         int low = 1;
         int high = nums.length - 2;
         int answer = -1;
@@ -1632,5 +1639,101 @@ public class Main {
 
         }
         return 0;
+    }
+
+    private static int findSqrt(int n) {
+        if (n == 1 || n == 2 || n == 3) return 1;
+        int low = 1;
+        int high = n;
+        int answer = 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (mid * mid <= n) {
+                answer = mid;
+                low = mid + 1;
+            } else high = mid - 1;
+        }
+
+        return answer;
+    }
+
+    public static int findDuplicate(int[] nums) {
+        if (nums == null) return -1;
+        if (nums.length == 1) return nums[0];
+        if (nums[0] == nums[1]) return nums[0];
+        if (nums[nums.length - 1] == nums[nums.length - 2]) return nums[nums.length - 1];
+        if (nums[0] == nums[nums.length - 1]) return nums[0];
+        int low = 1;
+        int high = nums.length - 1;
+        while (low < high) {
+            int mid = (low + high) / 2;
+            int countSmaller = 0;
+            for (int n : nums) {
+                if (n <= mid) countSmaller++;
+            }
+            if (countSmaller > mid) high = mid;
+            else low = mid + 1;
+        }
+        return low;
+    }
+
+    public static int findNthRoot(int m, int n) {
+        int low = 0;
+        int high = m;
+        int answer = -1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (Math.pow(mid, n) == m) return mid;
+            if (Math.pow(mid, n) > m) high = mid - 1;
+            else low = mid + 1;
+        }
+
+        return answer;
+    }
+
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        if (nums1 == null && nums2 == null) return -1.0;
+        if (nums1 == null || nums1.length == 0) {
+            if (nums2.length % 2 == 1) return (double) nums2[nums2.length / 2];
+            else return (double) (nums2[nums2.length / 2 - 1] + nums2[nums2.length / 2]) / 2;
+        }
+
+        if (nums2 == null || nums2.length == 0) {
+            if (nums1.length % 2 == 1) return (double) nums1[nums1.length / 2];
+            else return (double) (nums1[nums1.length / 2 - 1] + nums1[nums1.length / 2]) / 2;
+        }
+        if (nums1.length == 1 && nums2.length == 1) return (double) (nums1[0] + nums2[0]) / 2;
+        if (nums1.length == 2 && nums2.length == 1) {
+            if (nums2[0] < nums1[0] && nums2[0] < nums1[1]) {
+                return (double) Math.min((nums1[0] + nums1[1]) / 2.0, nums2[0]);
+            } else {
+                return (double) Math.min(nums1[1], nums2[0]);
+            }
+        }
+
+        if (nums1.length == 1 && nums2.length == 2) {
+            if (nums1[0] < nums2[0] && nums1[0] < nums2[1]) {
+                return (double) Math.min(nums1[0], (nums2[0] + nums2[1]) / 2.0);
+            } else {
+                return (double) Math.min(nums1[0], nums2[1]);
+            }
+        }
+        int low1 = 0;
+        int high1 = nums1.length - 1;
+        int low2 = 0;
+        int high2 = nums2.length - 1;
+        boolean isOdd1 = nums1.length % 2 == 1;
+        boolean isOdd2 = nums2.length % 2 == 1;
+        if (nums1[high1] > nums2[low2] && nums1[high1] != 0) {
+            return (double) (nums1[high1] + nums2[low2]) / 2;
+        }
+        double mid1 = (double) (nums1[low1] + nums1[high1]) / 2;
+        double mid2 = (double) (nums2[low2] + nums2[high2]) / 2;
+        if (isOdd1) mid1 = nums1[nums1.length / 2];
+        else if (isOdd2) mid2 = nums2[nums2.length / 2];
+        if (mid1 == 0.0) return mid2;
+        else if (mid2 == 0.0) return mid1;
+        if (mid1 == 0.0 && mid2 == 0.0) return 0.0;
+        return (double) (mid1 + mid2) / 2;
     }
 }

@@ -1,5 +1,6 @@
-import java.util.ArrayList;
-import java.util.Stack;
+import kotlin.Pair;
+
+import java.util.*;
 
 public class Utils {
 
@@ -71,6 +72,35 @@ public class Utils {
 
         public int getMin() {
             return minStack.peek();
+        }
+    }
+
+
+    class TimeMap {
+        private HashMap<String, List<Pair<Integer, String>>> keyStore;
+
+        public TimeMap() {
+            keyStore = new HashMap<>();
+
+        }
+
+        public void set(String key, String value, int timestamp) {
+            keyStore.computeIfAbsent(key, k -> new ArrayList<>()).add(new Pair<>(timestamp, value));
+        }
+
+        public String get(String key, int timestamp) {
+            List<Pair<Integer, String>> values = keyStore.getOrDefault(key, new ArrayList<>());
+            int left = 0;
+            int high = values.size() - 1;
+            String result = "";
+            while (left <= high) {
+                int mid = (left + high) / 2;
+                if (values.get(mid).getFirst() <= timestamp) {
+                    result = values.get(mid).getSecond();
+                    left = mid + 1;
+                } else high = mid - 1;
+            }
+            return result;
         }
     }
 
