@@ -15,14 +15,15 @@ fun main() {
 //    println(convert("PAYPALISHIRING", 3))
 //    println(myAtoi("0-1"))
 //    println(smallestDivisor(intArrayOf(19), 5))
-    println(shipWithinDays(intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 5))
+//    println(shipWithinDays(intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 5))
+    println(findKthPositive(intArrayOf(1, 2), 1))
 }
 
 fun singleNumber(nums: IntArray): Int {
     val count: HashMap<Int, Int> = hashMapOf()
     nums.forEach {
-        if (count.contains(it)) count[it] = count.getOrDefault(it, 0 + 1) + 1 else
-            count[it] = count.getOrDefault(it, 0) + 1
+        if (count.contains(it)) count[it] = count.getOrDefault(it, 0 + 1) + 1 else count[it] =
+            count.getOrDefault(it, 0) + 1
     }
 
     return count.filter { it.value == 1 }.keys.first()
@@ -179,18 +180,7 @@ fun infixToPostFix(s: String): String {
 
 fun dayOfYear(date: String): Int {
     val setOfDaysInMonth = listOf(
-        31,
-        date.checkIfLeapYear(),
-        31,
-        30,
-        31,
-        30,
-        31,
-        31,
-        30,
-        31,
-        30,
-        31
+        31, date.checkIfLeapYear(), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
     )
     var dayOfTheYear = 0;
 
@@ -321,7 +311,7 @@ fun shipWithinDays(weights: IntArray, days: Int): Int {
     var high = summation
     while (low <= high) {
         val mid = (low + high) / 2
-        if (minCap(weights,mid) <= days) {
+        if (minCap(weights, mid) <= days) {
             high = mid - 1
 
         } else low = mid + 1
@@ -339,6 +329,54 @@ fun minCap(weights: IntArray, cap: Int): Int {
         } else load += it
     }
     return days;
+}
+
+fun findKthPositive(arr: IntArray, k: Int): Int {
+    if (arr.isEmpty() || k == -1) return -1
+    var low = 0
+    var high = arr.size - 1
+    while (low <= high) {
+        val mid = (low + high) / 2
+        val missing = arr[mid] - (mid + 1)
+        if (missing < k) {
+            low = mid + 1
+        } else {
+            high = mid - 1
+        }
+
+    }
+    return high + 1 + k
+}
+
+fun minCowDistMax(arr: IntArray, cows: Int): Int {
+    arr.sort()
+    var low = 0
+    var high = arr[arr.size - 1] - arr[0]
+    var ans = 0
+    while (low <= high) {
+        val mid = (low + high) / 2
+        if (canWePlaceCow(
+                arr, mid, cows
+            )
+        ) {
+            ans = mid
+            low = mid + 1
+        } else high = mid - 1
+    }
+    return ans
+}
+
+fun canWePlaceCow(arr: IntArray, mid: Int, cows: Int): Boolean {
+    var countCows = 1
+    var last = arr[0]
+    for (i in 1..<arr.size) {
+        if (arr[i] - last >= mid) {
+            countCows++
+            last = arr[i]
+        }
+        if (countCows >= cows) return true
+    }
+    return false
 }
 
 fun Int.ceilDiv(other: Int): Int {
