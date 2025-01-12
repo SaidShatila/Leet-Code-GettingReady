@@ -16,7 +16,8 @@ fun main() {
 //    println(myAtoi("0-1"))
 //    println(smallestDivisor(intArrayOf(19), 5))
 //    println(shipWithinDays(intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 5))
-    println(findKthPositive(intArrayOf(1, 2), 1))
+//    println(findKthPositive(intArrayOf(1, 2), 1))
+    println(searchMatrix(arrayOf(intArrayOf(1,3,5,7),intArrayOf(10,11,16,20),intArrayOf(23,30,34,60)), 3))
 }
 
 fun singleNumber(nums: IntArray): Int {
@@ -378,6 +379,26 @@ fun canWePlaceCow(arr: IntArray, mid: Int, cows: Int): Boolean {
     }
     return false
 }
+
+fun searchMatrix(matrix: Array<IntArray>, target: Int): Boolean {
+    if (target == -1 || matrix.isEmpty()) return false
+    val low = matrix.size
+    val high = matrix[0].size
+
+    var i = 0
+    var j = low*high - 1
+
+    while (i <= j) {
+        val mid = (i + j) / 2
+        val num = matrix[mid/high][mid%high]
+        if (num == target) return true
+        if (num > target) {
+            j = mid - 1
+        } else i = mid + 1
+    }
+    return false
+}
+
 
 fun Int.ceilDiv(other: Int): Int {
     return this.floorDiv(other) + this.rem(other).sign.absoluteValue
