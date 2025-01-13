@@ -27,7 +27,7 @@ public class Main {
         int[] findDuplicate = {4, 3, 1, 4, 2};
         int[] nums1Median = {2, 2, 4, 4};
         int[] nums2Median = {2, 2, 2, 4, 4};
-        int[] booksAllocation = {12, 34, 67, 90};
+        int[] booksAllocation = {10, 20, 30, 40};
         int n = 1;
         int[] nums2 = {1};
         int m = 1;
@@ -160,7 +160,7 @@ public class Main {
 //        System.out.println(findSqrt(36));
 //        System.out.println(findDuplicate(findDuplicate));
 //        System.out.println(findMedianSortedArrays(nums1Median, nums2Median));
-        System.out.println(bookAllocation(booksAllocation, 2));
+        System.out.println(largestMinSubPainter(booksAllocation, 2));
 
     }
 
@@ -1751,7 +1751,7 @@ public class Main {
             if (nbOfStudents >= students) {
                 low = mid + 1;
             } else {
-                result =mid;
+                result = mid;
                 high = mid - 1;
             }
         }
@@ -1769,6 +1769,11 @@ public class Main {
         }
         return nbOfStudents;
     }
+
+    public static int largestMinSubPainter(int[] arrOfBooks, int painters) {
+        return bookAllocation(arrOfBooks, painters);
+    }
+
 
     public static int sumationOfArray(int[] arr) {
         if (arr == null) return -1;
