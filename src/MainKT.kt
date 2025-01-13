@@ -1,4 +1,5 @@
-import java.util.Stack
+import java.util.*
+import kotlin.collections.HashMap
 import kotlin.math.*
 
 fun main() {
@@ -17,7 +18,7 @@ fun main() {
 //    println(smallestDivisor(intArrayOf(19), 5))
 //    println(shipWithinDays(intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 5))
 //    println(findKthPositive(intArrayOf(1, 2), 1))
-    println(searchMatrix(arrayOf(intArrayOf(1,3,5,7),intArrayOf(10,11,16,20),intArrayOf(23,30,34,60)), 3))
+//    println(searchMatrix(arrayOf(intArrayOf(1,3,5,7),intArrayOf(10,11,16,20),intArrayOf(23,30,34,60)), 3))
 }
 
 fun singleNumber(nums: IntArray): Int {

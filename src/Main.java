@@ -1,5 +1,6 @@
 import kotlin.Pair;
 
+import javax.swing.plaf.InsetsUIResource;
 import java.util.*;
 
 public class Main {
@@ -24,8 +25,9 @@ public class Main {
         int[] rotatedSortedThree = {3, 4, 5, 1, 2};
         int[] peakElementArray = {3, 4, 3, 2, 1};
         int[] findDuplicate = {4, 3, 1, 4, 2};
-        int[] nums1Median = {2,2,4,4};
-        int[] nums2Median = {2,2,2,4,4};
+        int[] nums1Median = {2, 2, 4, 4};
+        int[] nums2Median = {2, 2, 2, 4, 4};
+        int[] booksAllocation = {12, 34, 67, 90};
         int n = 1;
         int[] nums2 = {1};
         int m = 1;
@@ -157,7 +159,8 @@ public class Main {
 //        System.out.println(findPeakElement(peakElementArray));
 //        System.out.println(findSqrt(36));
 //        System.out.println(findDuplicate(findDuplicate));
-        System.out.println(findMedianSortedArrays(nums1Median,nums2Median));
+//        System.out.println(findMedianSortedArrays(nums1Median, nums2Median));
+        System.out.println(bookAllocation(booksAllocation, 2));
 
     }
 
@@ -1735,5 +1738,44 @@ public class Main {
         else if (mid2 == 0.0) return mid1;
         if (mid1 == 0.0 && mid2 == 0.0) return 0.0;
         return (double) (mid1 + mid2) / 2;
+    }
+
+    public static int bookAllocation(int[] arrOfBooks, int students) {
+        if (arrOfBooks == null || students == 0 || (arrOfBooks.length < students)) return -1;
+        int low = Arrays.stream(arrOfBooks).max().getAsInt();
+        int high = Arrays.stream(arrOfBooks).sum();
+        int result = -1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int nbOfStudents = calculateNofStudents(arrOfBooks, mid);
+            if (nbOfStudents >= students) {
+                low = mid + 1;
+            } else {
+                result =mid;
+                high = mid - 1;
+            }
+        }
+        return result;
+    }
+
+    public static int calculateNofStudents(int[] arr, int mid) {
+        int nbOfStudents = 1;
+        int pageSum = 0;
+        for (int i = 0; i < arr.length - 1; i++) {
+            if (pageSum + arr[i] > mid) {
+                nbOfStudents++;
+                pageSum = arr[i];
+            } else pageSum += arr[i];
+        }
+        return nbOfStudents;
+    }
+
+    public static int sumationOfArray(int[] arr) {
+        if (arr == null) return -1;
+        int sum = 0;
+        for (int n : arr) {
+            sum += n;
+        }
+        return sum;
     }
 }
