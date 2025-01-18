@@ -23,11 +23,6 @@ Leet-Code-GettingReady
 3. Look at either the **Java** (`Main.java`) or **Kotlin** (`MainKT.kt`) files to run specific solutions.
 4. **Utils.java** and **Utils.kt** contain helper methods used by the main classes.
 
-## Topics Covered
-
-- **Binary Search**
-- **Median of Sorted Arrays** (incomplete test coverage at the moment)
-
 ## Contributing
 
 1. **Fork** the repository.
