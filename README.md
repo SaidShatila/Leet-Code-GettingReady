@@ -1,6 +1,6 @@
 # Leet-Code-GettingReady
 
-A simple repository containing **Java** and **Kotlin** implementations for LeetCode problems. The current solutions focus on topics like **Binary Search** and finding the **Median** of arrays.
+A simple repository containing **Java** and **Kotlin** implementations for LeetCode problems. The current solutions focus on topics like **Data Structures** and **Algorithms** .
 
 ## Structure
 
