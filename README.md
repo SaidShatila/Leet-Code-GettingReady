@@ -41,10 +41,4 @@ Leet-Code-GettingReady
 - [Kotlin Documentation](https://kotlinlang.org/docs/home.html)  
 - [Java Documentation](https://docs.oracle.com/en/java/)
 
-## License
-
-Licensed under the [MIT License](LICENSE).
-
----
-
 **Happy Coding!**
