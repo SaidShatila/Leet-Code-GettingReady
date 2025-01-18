@@ -1,59 +1,49 @@
 # Leet-Code-GettingReady
 
-A compact collection of **LeetCode** solutions written in **Kotlin** and **Java**, showcasing various data structures, algorithms, and problem-solving techniques for interview preparation.
+A simple repository containing **Java** and **Kotlin** implementations for LeetCode problems. The current solutions focus on topics like **Binary Search** and finding the **Median** of arrays.
 
-## Contents
-
-1. **Algorithms & Data Structures**  
-   - Arrays, Linked Lists, Trees, Graphs, Dynamic Programming, etc.
-2. **Multiple Approaches**  
-   - **Imperative** (loops, conditionals)  
-   - **Functional** (higher-order functions in Kotlin, stream APIs in Java)
-3. **Time/Space Complexity**  
-   - Each solution includes brief complexity notes.
-
-## Project Structure
+## Structure
 
 ```
 Leet-Code-GettingReady
-├── Arrays
-│   ├── TwoSum
-│   │   ├── Solution.kt
-│   │   └── Solution.java
-│   └── ...
-├── LinkedList
-│   ├── ReverseLinkedList
-│   │   ├── Solution.kt
-│   │   └── Solution.java
-│   └── ...
-└── README.md
+├── Main.java      // Java main entry point or example usage
+├── MainKT.kt      // Kotlin main entry point or example usage
+├── Utils.java     // Java utility/helper methods
+├── Utils.kt       // Kotlin utility/helper methods
+└── README.md      // Project documentation
 ```
 
 ## Getting Started
 
-1. **Clone** the repo:
+1. **Clone** this repository:
    ```bash
    git clone https://github.com/SaidShatila/Leet-Code-GettingReady.git
    ```
 2. **Open** in your preferred IDE (IntelliJ, Eclipse, etc.).
-3. **Run** any `Solution.kt` or `Solution.java` in the relevant folder.
+3. Look at either the **Java** (`Main.java`) or **Kotlin** (`MainKT.kt`) files to run specific solutions.
+4. **Utils.java** and **Utils.kt** contain helper methods used by the main classes.
 
-## How to Contribute
+## Topics Covered
+
+- **Binary Search**
+- **Median of Sorted Arrays** (incomplete test coverage at the moment)
+
+## Contributing
 
 1. **Fork** the repository.
-2. Create a new branch for your feature or solution.
-3. Commit and push changes.
-4. Open a Pull Request describing your contributions.
+2. Create a new branch for your solution or improvement.
+3. **Commit** and **push** your changes.
+4. Open a **Pull Request** describing your additions.
 
 ## References
 
 - [LeetCode](https://leetcode.com)  
-- [Kotlin Docs](https://kotlinlang.org/docs/home.html)  
-- [Java Docs](https://docs.oracle.com/en/java/)
+- [Kotlin Documentation](https://kotlinlang.org/docs/home.html)  
+- [Java Documentation](https://docs.oracle.com/en/java/)
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+Licensed under the [MIT License](LICENSE).
 
 ---
 
