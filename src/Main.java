@@ -1,6 +1,3 @@
-import kotlin.Pair;
-
-import javax.swing.plaf.InsetsUIResource;
 import java.util.*;
 
 public class Main {
@@ -1782,5 +1779,36 @@ public class Main {
             sum += n;
         }
         return sum;
+    }
+
+    public static double MinimiseMaxDistance(int[] arr, int K) {
+        if (arr == null || arr.length == 0 || K <= 0) return -1.0;
+        int n = arr.length;
+        double low = 0;
+        double high = 0;
+        for (int i = 0; i < n - 1; i++) {
+            high = Math.max(high, (arr[i + 1] - arr[i]));
+        }
+        double diff = Math.pow(10, -6);
+        while (high - low > diff) {
+            double mid = (low + high) / 2.0;
+            int cnt = numberOfGasStationsRequired((int) mid, arr);
+            if (cnt > K) {
+                low = mid;
+            } else high = mid;
+        }
+        return high;
+    }
+
+    public static int numberOfGasStationsRequired(int mid, int[] arr) {
+        int cnt = 0;
+        for (int i = 1; i < arr.length - 1; i++) {
+            int numberInBetween = ((arr[i] - arr[i - 1] / mid));
+            if (arr[i] - arr[i - 1] / mid == numberInBetween * mid) {
+                numberInBetween--;
+            }
+            cnt += numberInBetween;
+        }
+        return cnt;
     }
 }

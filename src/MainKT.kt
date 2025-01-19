@@ -19,6 +19,7 @@ fun main() {
 //    println(shipWithinDays(intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 5))
 //    println(findKthPositive(intArrayOf(1, 2), 1))
 //    println(searchMatrix(arrayOf(intArrayOf(1,3,5,7),intArrayOf(10,11,16,20),intArrayOf(23,30,34,60)), 3))
+    println(searchRotatedSortedKotlin(intArrayOf(4,5,6,7,0,1,2),0))
 }
 
 fun singleNumber(nums: IntArray): Int {
@@ -399,9 +400,23 @@ fun searchMatrix(matrix: Array<IntArray>, target: Int): Boolean {
     }
     return false
 }
-
-
 fun Int.ceilDiv(other: Int): Int {
     return this.floorDiv(other) + this.rem(other).sign.absoluteValue
+}
+
+fun searchRotatedSortedKotlin(nums: IntArray, target: Int): Int {
+    if(nums.isEmpty()) return -1
+    var low = 0
+    var high = nums.size
+    while(low <= high){
+        val mid = low + (high - low)/2
+        if(nums[mid] == target) return mid
+        if(nums[mid] > target && nums[low] < nums[mid]){
+            low = mid + 1
+        } else {
+            high = mid - 1
+        }
+    }
+    return -1
 }
 
