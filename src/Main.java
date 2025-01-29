@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 public class Main {
@@ -72,6 +73,14 @@ public class Main {
         head.next.next = new Utils.ListNode(0);
         head.next.next.next = new Utils.ListNode(0);
         head.next.next.next.next = new Utils.ListNode(3);
+        Utils.ListNode hasCycle = new Utils.ListNode(1);
+        hasCycle.next = new Utils.ListNode(2);
+        hasCycle.next.next = new Utils.ListNode(3);
+        hasCycle.next.next.next = new Utils.ListNode(4);
+//        hasCycle.next.next.next.next = new Utils.ListNode(5);
+//        hasCycle.next.next.next.next.next = new Utils.ListNode(6);
+//        hasCycle.next.next.next.next.next.next = new Utils.ListNode(7);
+//        hasCycle.next.next.next.next.next.next.next = new Utils.ListNode(8);
         String s = "ADOBECODEBANC";
         String t = "ABC";
         Utils.TreeNode root = new Utils.TreeNode(1);
@@ -157,7 +166,10 @@ public class Main {
 //        System.out.println(findSqrt(36));
 //        System.out.println(findDuplicate(findDuplicate));
 //        System.out.println(findMedianSortedArrays(nums1Median, nums2Median));
-        System.out.println(largestMinSubPainter(booksAllocation, 2));
+//        System.out.println(largestMinSubPainter(booksAllocation, 2));
+//        System.out.println(reverseList(listOne));
+//        System.out.println(mergeTwoListsNew(listOne, listTwo));
+        System.out.println(hasCycle(hasCycle));
 
     }
 
@@ -1810,5 +1822,69 @@ public class Main {
             cnt += numberInBetween;
         }
         return cnt;
+    }
+
+    public static Utils.ListNode reverseList(Utils.ListNode head) {
+        if (head == null) return null;
+        Utils.ListNode current = head;
+        Utils.ListNode previous = null;
+        while (current != null) {
+            Utils.ListNode temp = current.next;
+            current.next = previous;
+            previous = current;
+            current = temp;
+        }
+        return current;
+    }
+
+    public static Utils.ListNode mergeTwoListsNew(Utils.ListNode list1, Utils.ListNode list2) {
+        if (list1 == null && list2 == null) return null;
+        if (list1 == null && list2 != null) return list2;
+        if (list1 != null && list2 == null) return list1;
+        Utils.ListNode listPtr1 = list1;
+        Utils.ListNode listPtr2 = list2;
+
+        Utils.ListNode newList = null;
+        while (listPtr1 != null && listPtr2 != null) {
+            if (listPtr1.val > listPtr2.val) {
+                newList = new Utils.ListNode(listPtr2.val);
+                listPtr2 = listPtr2.next;
+            } else {
+                newList = new Utils.ListNode(listPtr1.val);
+                listPtr1 = listPtr1.next;
+            }
+            System.out.println(newList.val);
+
+            newList = newList.next;
+        }
+        if (listPtr1 != null) {
+            while (listPtr1 != null) {
+                newList = new Utils.ListNode(listPtr1.val);
+                newList = newList.next;
+                listPtr1 = listPtr1.next;
+            }
+        }
+        if (listPtr2 != null) {
+            while (listPtr2 != null) {
+                newList = new Utils.ListNode(listPtr2.val);
+                newList = newList.next;
+                listPtr2 = listPtr2.next;
+            }
+        }
+        return newList;
+    }
+
+
+    public static boolean hasCycle(Utils.ListNode head) {
+        Utils.ListNode pointer = head;
+        Utils.ListNode fastPointer = head;
+
+        while (fastPointer != null && fastPointer.next != null) {
+            fastPointer = pointer.next.next;
+            pointer = pointer.next;
+            if (fastPointer == pointer) return true;
+        }
+
+        return false;
     }
 }

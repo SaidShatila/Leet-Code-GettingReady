@@ -19,7 +19,11 @@ fun main() {
 //    println(shipWithinDays(intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 5))
 //    println(findKthPositive(intArrayOf(1, 2), 1))
 //    println(searchMatrix(arrayOf(intArrayOf(1,3,5,7),intArrayOf(10,11,16,20),intArrayOf(23,30,34,60)), 3))
-    println(searchRotatedSortedKotlin(intArrayOf(4,5,6,7,0,1,2),0))
+//    println(searchRotatedSortedKotlin(intArrayOf(4, 5, 6, 7, 0, 1, 2), 0))
+//    println(missingNumber(intArrayOf(4, 5, 6, 7, 0, 1, 2)))
+//    println(intersection(intArrayOf(4, 9, 5), intArrayOf(9, 4, 9, 8, 4)))
+//    println(longestPalindrome("babad"))
+//    println(reverseBits(111111111101))
 }
 
 fun singleNumber(nums: IntArray): Int {
@@ -388,11 +392,11 @@ fun searchMatrix(matrix: Array<IntArray>, target: Int): Boolean {
     val high = matrix[0].size
 
     var i = 0
-    var j = low*high - 1
+    var j = low * high - 1
 
     while (i <= j) {
         val mid = (i + j) / 2
-        val num = matrix[mid/high][mid%high]
+        val num = matrix[mid / high][mid % high]
         if (num == target) return true
         if (num > target) {
             j = mid - 1
@@ -400,18 +404,19 @@ fun searchMatrix(matrix: Array<IntArray>, target: Int): Boolean {
     }
     return false
 }
+
 fun Int.ceilDiv(other: Int): Int {
     return this.floorDiv(other) + this.rem(other).sign.absoluteValue
 }
 
 fun searchRotatedSortedKotlin(nums: IntArray, target: Int): Int {
-    if(nums.isEmpty()) return -1
+    if (nums.isEmpty()) return -1
     var low = 0
     var high = nums.size
-    while(low <= high){
-        val mid = low + (high - low)/2
-        if(nums[mid] == target) return mid
-        if(nums[mid] > target && nums[low] < nums[mid]){
+    while (low <= high) {
+        val mid = low + (high - low) / 2
+        if (nums[mid] == target) return mid
+        if (nums[mid] > target && nums[low] < nums[mid]) {
             low = mid + 1
         } else {
             high = mid - 1
@@ -420,3 +425,88 @@ fun searchRotatedSortedKotlin(nums: IntArray, target: Int): Int {
     return -1
 }
 
+fun missingNumber(nums: IntArray): Int {
+    nums.sort()
+    var start = 0
+    var end = nums.size - 1
+
+    while (start <= end) {
+        val mid = start + (end - start) / 2
+        if (nums[mid] == mid) {
+            start = mid + 1
+        } else {
+            end = mid - 1
+        }
+    }
+    return start
+}
+
+fun intersection(nums1: IntArray, nums2: IntArray): IntArray {
+    if (nums1.isEmpty() || nums2.isEmpty()) return intArrayOf()
+
+    val (smallArray, largeArray) = if (nums1.size > nums2.size) nums2 to nums1 else nums1 to nums2
+    largeArray.sort()
+    val setAnswer = mutableSetOf<Int>()
+
+    for (num in smallArray) {
+        if (binarySearch(largeArray, num)) {
+            setAnswer.add(num)
+        }
+    }
+
+    return setAnswer.toIntArray()
+}
+
+fun binarySearch(arr: IntArray, target: Int): Boolean {
+    var low = 0
+    var high = arr.size - 1
+
+    while (low <= high) {
+        val mid = low + (high - low) / 2
+        when {
+            arr[mid] == target -> return true
+            arr[mid] < target -> low = mid + 1
+            else -> high = mid - 1
+        }
+    }
+    return false
+}
+
+fun longestPalindrome(s: String): String {
+    if (s.isEmpty()) return ""
+
+    var start = 0
+    var maxLength = 0
+
+    fun expandAroundCenter(left: Int, right: Int) {
+        var l = left
+        var r = right
+        while (l >= 0 && r < s.length && s[l] == s[r]) {
+            if (r - l + 1 > maxLength) {
+                start = l
+                maxLength = r - l + 1
+            }
+            l--
+            r++
+        }
+    }
+
+    for (i in s.indices) {
+        expandAroundCenter(i, i)
+        expandAroundCenter(i, i + 1)
+    }
+
+    return s.substring(start, start + maxLength)
+}
+
+fun reverseBits(n: Int): Int {
+    if (n == 0) return 0
+    if (n == 1) return 1
+    val toInt = n.toString().toInt(2)
+    val reversedAnswer = toInt.toString().reversed()
+    val bitAnswerReversed = intToBinaryInt(reversedAnswer.toInt())
+    return reversedAnswer.toInt()
+}
+fun intToBinaryInt(number: Int): Int {
+    return number.toString(2).toInt()
+}
